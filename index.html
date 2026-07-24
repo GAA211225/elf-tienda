@@ -31,233 +31,109 @@
     backdrop-filter:saturate(180%) blur(20px);
     -webkit-backdrop-filter:saturate(180%) blur(20px);
     color:var(--text-light);
-    padding:0 22px;
+    padding:0 18px;
     height:48px;
     display:flex;align-items:center;justify-content:space-between;
-    font-size:14px;
+    font-size:14px;gap:10px;
   }
-  nav .logo{font-weight:700;font-size:19px;letter-spacing:-0.5px;}
-  nav .stats{color:#a1a1a6;font-size:12px;}
+  nav .logo{font-weight:700;font-size:19px;letter-spacing:-0.5px;white-space:nowrap;}
+  nav .right{display:flex;align-items:center;gap:12px;}
+  nav .stats{color:#a1a1a6;font-size:12px;white-space:nowrap;}
+  nav .sync{font-size:11px;color:#6e6e73;white-space:nowrap;}
+  nav .sync.saving{color:#f5c518;}
+  nav .sync.error{color:#ff6b60;}
+  nav .sync.ok{color:#5ad07a;}
+  .edit-btn{
+    padding:6px 13px;border-radius:980px;border:1px solid #48484a;
+    background:transparent;color:#f5f5f7;font-size:12.5px;cursor:pointer;
+    transition:all .2s;white-space:nowrap;
+  }
+  .edit-btn:hover{background:#f5f5f7;color:#000;}
+  .edit-btn.on{background:var(--ok);border-color:var(--ok);color:#fff;}
 
   /* HERO */
-  .hero{
-    background:#000;
-    color:var(--text-light);
-    text-align:center;
-    padding:70px 20px 54px;
-  }
+  .hero{background:#000;color:var(--text-light);text-align:center;padding:64px 20px 50px;}
   .hero h1{
-    font-size:54px;
-    font-weight:600;
-    letter-spacing:-0.02em;
+    font-size:52px;font-weight:600;letter-spacing:-0.02em;
     background:linear-gradient(90deg,#fff,#a1a1a6);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
-  .hero p{
-    margin-top:10px;
-    font-size:20px;
-    color:#a1a1a6;
-  }
-  .hero .search-wrap{
-    margin-top:30px;
-    display:flex;
-    justify-content:center;
-  }
+  .hero p{margin-top:10px;font-size:19px;color:#a1a1a6;}
+  .hero .search-wrap{margin-top:28px;display:flex;justify-content:center;}
   .hero input[type="text"]{
-    width:320px;
-    max-width:82vw;
-    padding:12px 20px;
-    border-radius:980px;
-    border:1px solid #424245;
-    background:#1d1d1f;
-    color:#fff;
-    font-size:15px;
-    outline:none;
+    width:320px;max-width:82vw;padding:12px 20px;border-radius:980px;
+    border:1px solid #424245;background:#1d1d1f;color:#fff;font-size:15px;outline:none;
   }
   .hero input[type="text"]::placeholder{color:#6e6e73;}
-
-  .filters{
-    display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px;
-  }
+  .filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
   .filters button{
-    padding:8px 16px;
-    border-radius:980px;
-    border:1px solid #424245;
-    background:transparent;
-    color:#f5f5f7;
-    font-size:13px;
-    cursor:pointer;
-    transition:all .2s;
+    padding:8px 16px;border-radius:980px;border:1px solid #424245;
+    background:transparent;color:#f5f5f7;font-size:13px;cursor:pointer;transition:all .2s;
   }
-  .filters button.active, .filters button:hover{
-    background:#f5f5f7;
-    color:#000;
-  }
+  .filters button.active, .filters button:hover{background:#f5f5f7;color:#000;}
 
-  /* CATEGORY SECTIONS */
-  .category{
-    padding:48px 5% 6px;
-    max-width:1240px;
-    margin:0 auto;
-  }
-  .category h2{
-    font-size:30px;
-    font-weight:600;
-    letter-spacing:-0.02em;
-    margin-bottom:2px;
-  }
-  .category .sub{
-    color:var(--gray);
-    font-size:16px;
-    margin-bottom:22px;
-  }
-
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
-    gap:16px;
-    padding-bottom:6px;
-  }
+  /* CATEGORIES */
+  .category{padding:46px 5% 6px;max-width:1240px;margin:0 auto;}
+  .category h2{font-size:29px;font-weight:600;letter-spacing:-0.02em;margin-bottom:2px;}
+  .category .sub{color:var(--gray);font-size:16px;margin-bottom:20px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;padding-bottom:6px;}
 
   .card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:14px 14px 18px;
-    display:flex;
-    flex-direction:column;
-    transition:transform .25s ease, box-shadow .25s ease;
-    position:relative;
-    overflow:hidden;
+    background:var(--card);border:1px solid var(--border);border-radius:20px;
+    padding:14px 14px 18px;display:flex;flex-direction:column;
+    transition:transform .25s ease, box-shadow .25s ease;position:relative;overflow:hidden;
   }
-  .card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 14px 30px rgba(0,0,0,0.09);
-  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,0.09);}
   .card.out .imgwrap img{filter:grayscale(0.9) opacity(0.55);}
   .card.out .name{color:var(--gray);}
 
   .imgwrap{
-    background:#f5f5f7;
-    border-radius:14px;
-    aspect-ratio:1/1;
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;
-    position:relative;
-    margin-bottom:12px;
+    background:#f5f5f7;border-radius:14px;aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    position:relative;margin-bottom:12px;
   }
-  .imgwrap img{
-    width:100%;height:100%;
-    object-fit:contain;
-    padding:6px;
-    transition:filter .25s ease;
-  }
+  .imgwrap img{width:100%;height:100%;object-fit:contain;padding:6px;transition:filter .25s ease;}
 
   .badge{
-    position:absolute;
-    top:10px;left:10px;
-    font-size:11px;
-    font-weight:600;
-    padding:4px 10px;
-    border-radius:980px;
-    letter-spacing:.02em;
-    backdrop-filter:blur(8px);
+    position:absolute;top:10px;left:10px;font-size:11px;font-weight:600;
+    padding:4px 10px;border-radius:980px;letter-spacing:.02em;backdrop-filter:blur(8px);
   }
   .badge.ok{background:rgba(29,185,84,0.14);color:#0f8a3c;}
   .badge.out{background:rgba(255,59,48,0.14);color:#c9271d;}
 
-  .name{
-    font-size:16px;
-    font-weight:600;
-    letter-spacing:-0.01em;
-    line-height:1.25;
-  }
-  .desc{
-    font-size:12.5px;
-    color:var(--gray);
-    line-height:1.4;
-    margin-top:4px;
-    min-height:34px;
-  }
+  .name{font-size:16px;font-weight:600;letter-spacing:-0.01em;line-height:1.25;}
+  .desc{font-size:12.5px;color:var(--gray);line-height:1.4;margin-top:4px;min-height:34px;}
 
   .price{
-    margin-top:8px;
-    font-size:16px;
-    font-weight:600;
-    color:var(--text);
-    outline:none;
-    cursor:text;
-    display:inline-block;
-    min-width:40px;
-    border-radius:6px;
-    padding:1px 4px;
-    transition:background .15s;
+    margin-top:8px;font-size:16px;font-weight:600;color:var(--text);
+    outline:none;display:inline-block;min-width:36px;border-radius:6px;padding:1px 4px;transition:background .15s;
   }
-  .price:hover{background:#f0f0f2;}
-  .price:focus{background:#eef4ff;box-shadow:0 0 0 2px rgba(0,113,227,0.35);}
-  .price:empty:before{
-    content:"Poner precio";
-    color:#c7c7cc;
-    font-weight:400;
-  }
+  .price.editable{cursor:text;}
+  .price.editable:hover{background:#f0f0f2;}
+  .price.editable:focus{background:#eef4ff;box-shadow:0 0 0 2px rgba(0,113,227,0.35);}
+  .price.editable:empty:before{content:"Poner precio";color:#c7c7cc;font-weight:400;}
+  .price.readonly:empty{display:none;}
 
   .toggle-row{
-    margin-top:12px;
-    padding-top:12px;
-    border-top:1px solid #f0f0f2;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
+    margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f2;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
   }
-  .toggle-label{
-    font-size:12.5px;
-    color:var(--gray);
-    font-weight:500;
-  }
-  .switch{
-    position:relative;
-    width:46px;height:26px;
-    flex-shrink:0;
-  }
+  .toggle-label{font-size:12.5px;color:var(--gray);font-weight:500;}
+  .switch{position:relative;width:46px;height:26px;flex-shrink:0;}
   .switch input{opacity:0;width:0;height:0;}
-  .slider{
-    position:absolute;cursor:pointer;inset:0;
-    background:#e9e9eb;
-    border-radius:34px;
-    transition:.3s;
-  }
-  .slider:before{
-    content:"";
-    position:absolute;
-    height:20px;width:20px;
-    left:3px;top:3px;
-    background:white;
-    border-radius:50%;
-    transition:.3s;
-    box-shadow:0 1px 3px rgba(0,0,0,0.3);
-  }
+  .slider{position:absolute;cursor:pointer;inset:0;background:#e9e9eb;border-radius:34px;transition:.3s;}
+  .slider:before{content:"";position:absolute;height:20px;width:20px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,0.3);}
   .switch input:checked + .slider{background:var(--ok);}
   .switch input:checked + .slider:before{transform:translateX(20px);}
 
-  .empty-msg{
-    text-align:center;color:var(--gray);padding:60px 20px;font-size:17px;
-  }
-
-  footer{
-    text-align:center;
-    padding:44px 20px 64px;
-    color:var(--gray);
-    font-size:12px;
-    line-height:1.6;
-  }
+  .empty-msg{text-align:center;color:var(--gray);padding:60px 20px;font-size:17px;}
+  footer{text-align:center;padding:44px 20px 64px;color:var(--gray);font-size:12px;line-height:1.6;}
 
   @media (max-width:600px){
-    .hero h1{font-size:38px;}
+    .hero h1{font-size:37px;}
     .hero p{font-size:16px;}
-    .category{padding:38px 5% 6px;}
+    nav .stats{display:none;}
+    .category{padding:36px 5% 6px;}
     .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
   }
 </style>
@@ -266,12 +142,16 @@
 
 <nav>
   <div class="logo">elf. tienda</div>
-  <div class="stats" id="statsBar">—</div>
+  <div class="right">
+    <span class="stats" id="statsBar">—</span>
+    <span class="sync" id="syncBar"></span>
+    <button class="edit-btn" id="editBtn">🔒 Editar</button>
+  </div>
 </nav>
 
 <div class="hero">
   <h1>elf. Cosmetics</h1>
-  <p>Catálogo · marca lo que tienes disponible</p>
+  <p id="heroSub">Catálogo de productos</p>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="Buscar producto...">
   </div>
@@ -284,86 +164,144 @@
 
 <div id="categories"></div>
 
-<footer>
-  Inventario y precios se guardan en este dispositivo (localStorage).<br>
-  Imágenes y nombres © e.l.f. Cosmetics — catálogo de referencia.
-</footer>
+<footer id="footerNote"></footer>
 
 <script>
-// width bumped to 600 for crisp images
+/* ============================================================
+   CONFIGURACIÓN DE INVENTARIO COMPARTIDO (Supabase)
+   Deja estos dos valores VACÍOS para usar guardado local (por dispositivo).
+   Pon tu Project URL y anon (public) key para que TODOS vean el mismo stock.
+   ============================================================ */
+const SUPABASE_URL = "";   // ej: "https://abcdefgh.supabase.co"
+const SUPABASE_KEY = "";   // anon public key (empieza con eyJ...)
+const ADMIN_PIN    = "";   // opcional: PIN para entrar en modo edición ("" = sin PIN)
+
+const REMOTE = !!(SUPABASE_URL && SUPABASE_KEY);
+/* ============================================================ */
+
 const IMG = (u)=>u.replace("width=300&height=300","width=600&height=600");
 
 const DATA = [
   { cat:"Rostro — Base y complexión", sub:"Bases, correctores y CC", items:[
-    {id:"halo-glow-liquid-filter", name:"Halo Glow Liquid Filter", desc:"Iluminador líquido, efecto piel con filtro.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82114_OpenA_R_b1d1c727-4344-4acb-b2df-f81bccc36794.png?v=1780430133&width=300&height=300&crop=center")},
-    {id:"halo-glow-skin-tint", name:"Halo Glow Skin Tint SPF 50", desc:"Base ligera luminosa con protección solar.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/HaloGlowSkinTint_84506_def3c1bc-10cd-43fb-be8f-d9ee163b7ac6.png?v=1780255768&width=300&height=300&crop=center")},
-    {id:"soft-glam-satin-foundation", name:"Soft Glam Satin Foundation", desc:"Base acabado satinado, cobertura media.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84942_Open_A_v2_R_8bf78f0d-e7cd-4be8-817c-099e48f0dbba.png?v=1780429621&width=300&height=300&crop=center")},
-    {id:"hydrating-camo-concealer", name:"Hydrating Camo Concealer", desc:"Corrector hidratante de alta cobertura.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84824_Open_A_R.png?v=1776967312&width=300&height=300&crop=center")},
-    {id:"soft-glam-satin-concealer", name:"Soft Glam Satin Concealer", desc:"Corrector acabado satinado natural.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85182_OpenA_R.png?v=1779830978&width=300&height=300&crop=center")},
-    {id:"halo-glow-powder-filter", name:"Halo Glow Powder Filter", desc:"Polvo iluminador multiusos.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84545_CLOSED_v5_R.png?v=1776967270&width=300&height=300&crop=center")},
-    {id:"sheer-for-it-blush-tint", name:"Sheer For It Blush Tint", desc:"Tinte líquido para mejillas, acabado natural.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83696_OpenA_R_9b565ce2-da16-442d-a1c7-3fad048000a4.png?v=1778620728&width=300&height=300&crop=center")},
+    {id:"halo-glow-liquid-filter", name:"Halo Glow Liquid Filter", desc:"Iluminador líquido, efecto piel con filtro.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82114_OpenA_R_b1d1c727-4344-4acb-b2df-f81bccc36794.png?v=1780430133&width=300&height=300&crop=center")},
+    {id:"halo-glow-skin-tint", name:"Halo Glow Skin Tint SPF 50", desc:"Base ligera luminosa con protección solar.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/HaloGlowSkinTint_84506_def3c1bc-10cd-43fb-be8f-d9ee163b7ac6.png?v=1780255768&width=300&height=300&crop=center")},
+    {id:"soft-glam-satin-foundation", name:"Soft Glam Satin Foundation", desc:"Base acabado satinado, cobertura media.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84942_Open_A_v2_R_8bf78f0d-e7cd-4be8-817c-099e48f0dbba.png?v=1780429621&width=300&height=300&crop=center")},
+    {id:"hydrating-camo-concealer", name:"Hydrating Camo Concealer", desc:"Corrector hidratante de alta cobertura.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84824_Open_A_R.png?v=1776967312&width=300&height=300&crop=center")},
+    {id:"soft-glam-satin-concealer", name:"Soft Glam Satin Concealer", desc:"Corrector acabado satinado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85182_OpenA_R.png?v=1779830978&width=300&height=300&crop=center")},
+    {id:"halo-glow-powder-filter", name:"Halo Glow Powder Filter", desc:"Polvo iluminador multiusos.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84545_CLOSED_v5_R.png?v=1776967270&width=300&height=300&crop=center")},
+    {id:"sheer-for-it-blush-tint", name:"Sheer For It Blush Tint", desc:"Tinte líquido para mejillas, acabado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83696_OpenA_R_9b565ce2-da16-442d-a1c7-3fad048000a4.png?v=1778620728&width=300&height=300&crop=center")},
   ]},
   { cat:"Ojos", sub:"Sombras, delineador y máscara", items:[
-    {id:"bite-size-eyeshadow", name:"Bite-Size Eyeshadow", desc:"Mini paletas de sombras, alta pigmentación.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21151_OpenA_R.png?v=1776967203&width=300&height=300&crop=center")},
-    {id:"perfect-10-palette", name:"Perfect 10 Eyeshadow Palette", desc:"Paleta de 10 sombras coordinadas.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83279_OpenA_R.png?v=1776967356&width=300&height=300&crop=center")},
-    {id:"no-budge-shadow-stick", name:"No Budge Shadow Stick", desc:"Sombra en stick de larga duración.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81665_BRFAC_OpenA_R.png?v=1776967346&width=300&height=300&crop=center")},
-    {id:"liquid-velvet-eyeshadow", name:"Liquid Velvet Eyeshadow", desc:"Sombra líquida acabado aterciopelado.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83674_OpenA_R.png?v=1780638553&width=300&height=300&crop=center")},
-    {id:"fine-as-fleck-glitter", name:"Fine as Fleck Glitter Eyeshadow", desc:"Sombra con glitter fino.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82272_OPEN_R.png?v=1776967235&width=300&height=300&crop=center")},
-    {id:"glitzshow-eyeshadow-stick", name:"Glitzshow Eyeshadow Stick", desc:"Stick de sombra con brillo intenso.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83795_OpenA_V2_R.png?v=1778726008&width=300&height=300&crop=center")},
-    {id:"smoky-kohl-eyeliner", name:"Smoky Kohl Eyeliner", desc:"Delineador kohl para ahumados.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22010_OpenA_R.png?v=1779830240&width=300&height=300&crop=center")},
-    {id:"lash-xtndr-mascara", name:"Lash XTNDR Mascara", desc:"Máscara de pestañas con efecto extensión.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81588_Open_B_0005_Product_Master_V4_R.png?v=1776967332&width=300&height=300&crop=center")},
+    {id:"bite-size-eyeshadow", name:"Bite-Size Eyeshadow", desc:"Mini paletas de sombras, alta pigmentación.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21151_OpenA_R.png?v=1776967203&width=300&height=300&crop=center")},
+    {id:"perfect-10-palette", name:"Perfect 10 Eyeshadow Palette", desc:"Paleta de 10 sombras coordinadas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83279_OpenA_R.png?v=1776967356&width=300&height=300&crop=center")},
+    {id:"no-budge-shadow-stick", name:"No Budge Shadow Stick", desc:"Sombra en stick de larga duración.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81665_BRFAC_OpenA_R.png?v=1776967346&width=300&height=300&crop=center")},
+    {id:"liquid-velvet-eyeshadow", name:"Liquid Velvet Eyeshadow", desc:"Sombra líquida acabado aterciopelado.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83674_OpenA_R.png?v=1780638553&width=300&height=300&crop=center")},
+    {id:"fine-as-fleck-glitter", name:"Fine as Fleck Glitter Eyeshadow", desc:"Sombra con glitter fino.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82272_OPEN_R.png?v=1776967235&width=300&height=300&crop=center")},
+    {id:"glitzshow-eyeshadow-stick", name:"Glitzshow Eyeshadow Stick", desc:"Stick de sombra con brillo intenso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83795_OpenA_V2_R.png?v=1778726008&width=300&height=300&crop=center")},
+    {id:"smoky-kohl-eyeliner", name:"Smoky Kohl Eyeliner", desc:"Delineador kohl para ahumados.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22010_OpenA_R.png?v=1779830240&width=300&height=300&crop=center")},
+    {id:"lash-xtndr-mascara", name:"Lash XTNDR Mascara", desc:"Máscara de pestañas con efecto extensión.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81588_Open_B_0005_Product_Master_V4_R.png?v=1776967332&width=300&height=300&crop=center")},
   ]},
   { cat:"Cejas", sub:"Lápices y geles", items:[
-    {id:"instant-lift-brow-pencil", name:"Instant Lift Brow Pencil", desc:"Lápiz de cejas con efecto lifting.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21723_brow_liftwebA.jpg?v=1776967315&width=300&height=300&crop=center")},
-    {id:"wow-brow-gel", name:"Wow Brow Gel", desc:"Gel fijador de cejas con color.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83574_WowBrowGel__ComponentOpen.png?v=1776967414&width=300&height=300&crop=center")},
-    {id:"brow-laminating-gel", name:"Brow Laminating Gel", desc:"Gel laminador para fijar y peinar cejas.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81765_OpenA_2_R.png?v=1776967205&width=300&height=300&crop=center")},
-    {id:"clear-brow-lash-mascara", name:"Clear Brow & Lash Mascara", desc:"Gel transparente para cejas y pestañas.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21663_EYBRW_OpenA_R.png?v=1776967206&width=300&height=300&crop=center")},
+    {id:"instant-lift-brow-pencil", name:"Instant Lift Brow Pencil", desc:"Lápiz de cejas con efecto lifting.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21723_brow_liftwebA.jpg?v=1776967315&width=300&height=300&crop=center")},
+    {id:"wow-brow-gel", name:"Wow Brow Gel", desc:"Gel fijador de cejas con color.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83574_WowBrowGel__ComponentOpen.png?v=1776967414&width=300&height=300&crop=center")},
+    {id:"brow-laminating-gel", name:"Brow Laminating Gel", desc:"Gel laminador para fijar y peinar cejas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81765_OpenA_2_R.png?v=1776967205&width=300&height=300&crop=center")},
+    {id:"clear-brow-lash-mascara", name:"Clear Brow & Lash Mascara", desc:"Gel transparente para cejas y pestañas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21663_EYBRW_OpenA_R.png?v=1776967206&width=300&height=300&crop=center")},
   ]},
   { cat:"Labios", sub:"Oils, stains y liners", items:[
-    {id:"glow-reviver-lip-oil", name:"Glow Reviver Lip Oil", desc:"Aceite labial hidratante, el más vendido.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82006_OpenA_R_716ea6b8-6db6-470d-8d0c-e806cfccc350.png?v=1780264216&width=300&height=300&crop=center")},
-    {id:"glow-reviver-melting-balm", name:"Glow Reviver Melting Lip Balm", desc:"Bálsamo labial fundente con color.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83472_OpenA_R_b53eede9-4d92-422a-bfd9-58c28bad3b08.png?v=1780439753&width=300&height=300&crop=center")},
-    {id:"glow-reviver-lip-oil-stick", name:"Glow Reviver Lip Oil Stick", desc:"Aceite labial en formato stick.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/Rose_Latte_1.avif?v=1779287987&width=300&height=300&crop=center")},
-    {id:"cream-glide-lip-liner", name:"Cream Glide Lip Liner", desc:"Delineador de labios cremoso.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22094_OpenB_R_c27fe89d-333c-431f-b803-a11de3912770.png?v=1780264315&width=300&height=300&crop=center")},
-    {id:"main-stain-lip-marker", name:"Main Stain Lip Marker", desc:"Marcador labial tipo tinta.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83609_OpenA_R.jpg?v=1778620594&width=300&height=300&crop=center")},
-    {id:"lip-lacquer", name:"Lip Lacquer", desc:"Gloss labial de acabado brillante.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21171_OpenA_V2_R.png?v=1776967337&width=300&height=300&crop=center")},
-    {id:"glossy-lip-stain", name:"Glossy Lip Stain", desc:"Tinta labial con acabado glossy.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81682_OpenA_R_Final.png?v=1776967245&width=300&height=300&crop=center")},
+    {id:"glow-reviver-lip-oil", name:"Glow Reviver Lip Oil", desc:"Aceite labial hidratante, el más vendido.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82006_OpenA_R_716ea6b8-6db6-470d-8d0c-e806cfccc350.png?v=1780264216&width=300&height=300&crop=center")},
+    {id:"glow-reviver-melting-balm", name:"Glow Reviver Melting Lip Balm", desc:"Bálsamo labial fundente con color.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83472_OpenA_R_b53eede9-4d92-422a-bfd9-58c28bad3b08.png?v=1780439753&width=300&height=300&crop=center")},
+    {id:"glow-reviver-lip-oil-stick", name:"Glow Reviver Lip Oil Stick", desc:"Aceite labial en formato stick.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/Rose_Latte_1.avif?v=1779287987&width=300&height=300&crop=center")},
+    {id:"cream-glide-lip-liner", name:"Cream Glide Lip Liner", desc:"Delineador de labios cremoso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22094_OpenB_R_c27fe89d-333c-431f-b803-a11de3912770.png?v=1780264315&width=300&height=300&crop=center")},
+    {id:"main-stain-lip-marker", name:"Main Stain Lip Marker", desc:"Marcador labial tipo tinta.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83609_OpenA_R.jpg?v=1778620594&width=300&height=300&crop=center")},
+    {id:"lip-lacquer", name:"Lip Lacquer", desc:"Gloss labial de acabado brillante.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21171_OpenA_V2_R.png?v=1776967337&width=300&height=300&crop=center")},
+    {id:"glossy-lip-stain", name:"Glossy Lip Stain", desc:"Tinta labial con acabado glossy.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81682_OpenA_R_Final.png?v=1776967245&width=300&height=300&crop=center")},
   ]},
   { cat:"Primers y fijadores", sub:"Colección Power Grip", items:[
-    {id:"power-grip-primer", name:"Power Grip Primer", desc:"Primer hidratante con grip pegajoso.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82846_OpenA_R_ee84794a-a423-4781-8f1b-8299e65abb11.png?v=1778006929&width=300&height=300&crop=center")},
-    {id:"power-grip-niacinamide", name:"Power Grip Primer + 4% Niacinamida", desc:"Primer con niacinamida para la piel.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81517_OpenA_R_20copy.png?v=1777056087&width=300&height=300&crop=center")},
-    {id:"power-grip-matte-primer", name:"Power Grip Matte Primer", desc:"Primer con acabado mate.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83945_OPENA_v3_R_dcc67b37-6ef0-4604-8b1e-ebdab937f461.png?v=1778587592&width=300&height=300&crop=center")},
-    {id:"power-grip-dewy-setting", name:"Power Grip Dewy Setting Spray", desc:"Spray fijador con acabado dewy.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84759_Open_A_V9_R.png?v=1776967370&width=300&height=300&crop=center")},
+    {id:"power-grip-primer", name:"Power Grip Primer", desc:"Primer hidratante con grip pegajoso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82846_OpenA_R_ee84794a-a423-4781-8f1b-8299e65abb11.png?v=1778006929&width=300&height=300&crop=center")},
+    {id:"power-grip-niacinamide", name:"Power Grip Primer + 4% Niacinamida", desc:"Primer con niacinamida para la piel.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81517_OpenA_R_20copy.png?v=1777056087&width=300&height=300&crop=center")},
+    {id:"power-grip-matte-primer", name:"Power Grip Matte Primer", desc:"Primer con acabado mate.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83945_OPENA_v3_R_dcc67b37-6ef0-4604-8b1e-ebdab937f461.png?v=1778587592&width=300&height=300&crop=center")},
+    {id:"power-grip-dewy-setting", name:"Power Grip Dewy Setting Spray", desc:"Spray fijador con acabado dewy.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84759_Open_A_V9_R.png?v=1776967370&width=300&height=300&crop=center")},
   ]},
   { cat:"Brochas y herramientas", sub:"Aplicación y difuminado", items:[
-    {id:"liquid-blush-brush", name:"Liquid Blush Brush", desc:"Brocha para rubor líquido.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83595_OpenA_V2_R.png?v=1776967331&width=300&height=300&crop=center")},
-    {id:"cream-powder-face-brush", name:"Cream & Powder Face Brush", desc:"Brocha facial para crema y polvo.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85352_Closed_V2_R.png?v=1776967221&width=300&height=300&crop=center")},
-    {id:"smooth-swipe-foundation-brush", name:"Smooth Swipe Foundation Brush", desc:"Brocha para aplicar base.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81456_Closed_V2_R.png?v=1776967382&width=300&height=300&crop=center")},
-    {id:"pro-set-12-brushes", name:"Set de 12 Brochas Profesionales", desc:"Kit completo de 12 brochas.", price:"", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/1810_ProfessionalCompleteSetof12BrusheswebA.jpg?v=1776967371&width=300&height=300&crop=center")},
+    {id:"liquid-blush-brush", name:"Liquid Blush Brush", desc:"Brocha para rubor líquido.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83595_OpenA_V2_R.png?v=1776967331&width=300&height=300&crop=center")},
+    {id:"cream-powder-face-brush", name:"Cream & Powder Face Brush", desc:"Brocha facial para crema y polvo.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85352_Closed_V2_R.png?v=1776967221&width=300&height=300&crop=center")},
+    {id:"smooth-swipe-foundation-brush", name:"Smooth Swipe Foundation Brush", desc:"Brocha para aplicar base.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81456_Closed_V2_R.png?v=1776967382&width=300&height=300&crop=center")},
+    {id:"pro-set-12-brushes", name:"Set de 12 Brochas Profesionales", desc:"Kit completo de 12 brochas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/1810_ProfessionalCompleteSetof12BrusheswebA.jpg?v=1776967371&width=300&height=300&crop=center")},
   ]},
 ];
 
-const STORAGE_KEY = "elf_tienda_v2";
+const LOCAL_KEY = "elf_tienda_v2";
+let state = {stock:{}, prices:{}};
+let currentFilter = "all";
+let searchTerm = "";
+let editMode = false;
 
-function loadState(){
+/* ---------- persistencia local (cache/fallback) ---------- */
+function loadLocal(){
   try{
-    const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const s = JSON.parse(localStorage.getItem(LOCAL_KEY));
     if(s && typeof s === "object") return {stock:s.stock||{}, prices:s.prices||{}};
   }catch(e){}
   return {stock:{}, prices:{}};
 }
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function saveLocal(){ localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); }
 
-let state = loadState();
-let currentFilter = "all";
-let searchTerm = "";
+/* ---------- Supabase REST ---------- */
+function sbHeaders(){
+  return {
+    "apikey": SUPABASE_KEY,
+    "Authorization": "Bearer " + SUPABASE_KEY,
+    "Content-Type": "application/json"
+  };
+}
+async function remoteFetch(){
+  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/inventory?select=product_id,in_stock,price";
+  const r = await fetch(url, {headers: sbHeaders()});
+  if(!r.ok) throw new Error("GET "+r.status);
+  const rows = await r.json();
+  const st = {stock:{}, prices:{}};
+  rows.forEach(row=>{
+    st.stock[row.product_id] = row.in_stock;
+    st.prices[row.product_id] = row.price || "";
+  });
+  return st;
+}
+async function remoteUpsert(id){
+  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/inventory";
+  const body = [{ product_id:id, in_stock:isInStock(id), price:getPrice(id) }];
+  const r = await fetch(url, {
+    method:"POST",
+    headers: Object.assign(sbHeaders(), {"Prefer":"resolution=merge-duplicates,return=minimal"}),
+    body: JSON.stringify(body)
+  });
+  if(!r.ok) throw new Error("POST "+r.status);
+}
 
+/* ---------- estado ---------- */
 function isInStock(id){ return state.stock[id] !== undefined ? state.stock[id] : true; }
 function getPrice(id){ return state.prices[id] || ""; }
 
+function setSync(txt, cls){
+  const el = document.getElementById("syncBar");
+  el.textContent = txt || "";
+  el.className = "sync " + (cls||"");
+}
+
+async function persist(id){
+  saveLocal();
+  if(REMOTE){
+    setSync("Guardando…","saving");
+    try{ await remoteUpsert(id); setSync("Sincronizado ✓","ok");
+      setTimeout(()=>{ if(document.getElementById("syncBar").textContent==="Sincronizado ✓") setSync("",""); }, 2000);
+    }catch(e){ setSync("Error al guardar","error"); console.error(e); }
+  }
+}
+
+/* ---------- render ---------- */
 function render(){
   const container = document.getElementById("categories");
   container.innerHTML = "";
-  let totalIn = 0, totalOut = 0, shown = 0;
+  let shown = 0;
 
   DATA.forEach(section => {
     const filtered = section.items.filter(item => {
@@ -372,7 +310,6 @@ function render(){
       const matchesFilter = currentFilter === "all" || (currentFilter === "in" && inStock) || (currentFilter === "out" && !inStock);
       return matchesSearch && matchesFilter;
     });
-
     if(filtered.length === 0) return;
 
     const catDiv = document.createElement("div");
@@ -386,6 +323,14 @@ function render(){
       shown++;
       const card = document.createElement("div");
       card.className = "card" + (inStock ? "" : " out");
+      const toggleHTML = editMode ? `
+        <div class="toggle-row">
+          <span class="toggle-label">${inStock ? 'En inventario' : 'Sin inventario'}</span>
+          <label class="switch">
+            <input type="checkbox" ${inStock ? "checked" : ""} data-id="${item.id}">
+            <span class="slider"></span>
+          </label>
+        </div>` : "";
       card.innerHTML = `
         <div class="imgwrap">
           <div class="badge ${inStock ? 'ok' : 'out'}">${inStock ? 'Disponible' : 'Agotado'}</div>
@@ -394,15 +339,9 @@ function render(){
         </div>
         <div class="name">${item.name}</div>
         <div class="desc">${item.desc}</div>
-        <span class="price" contenteditable="true" data-id="${item.id}"
-              spellcheck="false">${getPrice(item.id)}</span>
-        <div class="toggle-row">
-          <span class="toggle-label">${inStock ? 'En inventario' : 'Sin inventario'}</span>
-          <label class="switch">
-            <input type="checkbox" ${inStock ? "checked" : ""} data-id="${item.id}">
-            <span class="slider"></span>
-          </label>
-        </div>
+        <span class="price ${editMode?'editable':'readonly'}" ${editMode?'contenteditable="true"':''}
+              data-id="${item.id}" spellcheck="false">${getPrice(item.id)}</span>
+        ${toggleHTML}
       `;
       grid.appendChild(card);
     });
@@ -410,38 +349,52 @@ function render(){
     container.appendChild(catDiv);
   });
 
-  // global counts (independientes del filtro)
+  // conteos globales
+  let totalIn=0, totalOut=0;
   DATA.forEach(s => s.items.forEach(i => { isInStock(i.id) ? totalIn++ : totalOut++; }));
   document.getElementById("statsBar").textContent = `${totalIn} disponibles · ${totalOut} agotados`;
 
-  if(shown === 0){
-    container.innerHTML = `<div class="empty-msg">No hay productos que coincidan.</div>`;
+  if(shown === 0) container.innerHTML = `<div class="empty-msg">No hay productos que coincidan.</div>`;
+
+  if(editMode){
+    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", e => {
+        state.stock[e.target.dataset.id] = e.target.checked;
+        render();
+        persist(e.target.dataset.id);
+      });
+    });
+    container.querySelectorAll('.price').forEach(el => {
+      el.addEventListener("blur", e => {
+        state.prices[e.target.dataset.id] = e.target.textContent.trim();
+        persist(e.target.dataset.id);
+      });
+      el.addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); e.target.blur(); } });
+    });
   }
-
-  // toggles
-  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener("change", e => {
-      state.stock[e.target.dataset.id] = e.target.checked;
-      saveState();
-      render();
-    });
-  });
-
-  // precios editables
-  container.querySelectorAll('.price').forEach(el => {
-    el.addEventListener("blur", e => {
-      state.prices[e.target.dataset.id] = e.target.textContent.trim();
-      saveState();
-    });
-    el.addEventListener("keydown", e => {
-      if(e.key === "Enter"){ e.preventDefault(); e.target.blur(); }
-    });
-  });
 }
 
-document.getElementById("searchInput").addEventListener("input", e => {
-  searchTerm = e.target.value; render();
+/* ---------- modo edición ---------- */
+function setEditMode(on){
+  editMode = on;
+  const btn = document.getElementById("editBtn");
+  btn.classList.toggle("on", on);
+  btn.textContent = on ? "✓ Editando" : "🔒 Editar";
+  document.getElementById("heroSub").textContent = on
+    ? "Modo edición · marca disponibilidad y precios"
+    : "Catálogo de productos";
+  render();
+}
+document.getElementById("editBtn").addEventListener("click", ()=>{
+  if(!editMode && ADMIN_PIN){
+    const pin = prompt("PIN de administrador:");
+    if(pin !== ADMIN_PIN){ if(pin!==null) alert("PIN incorrecto"); return; }
+  }
+  setEditMode(!editMode);
 });
+
+/* ---------- buscador / filtros ---------- */
+document.getElementById("searchInput").addEventListener("input", e => { searchTerm = e.target.value; render(); });
 document.querySelectorAll(".filters button").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
@@ -450,7 +403,28 @@ document.querySelectorAll(".filters button").forEach(btn => {
   });
 });
 
-render();
+/* ---------- arranque ---------- */
+async function init(){
+  document.getElementById("footerNote").innerHTML = REMOTE
+    ? 'Inventario compartido en tiempo real · Imágenes y nombres © e.l.f. Cosmetics — catálogo de referencia.'
+    : 'Inventario y precios guardados en este dispositivo · Imágenes y nombres © e.l.f. Cosmetics — catálogo de referencia.';
+
+  state = loadLocal();      // muestra algo al instante
+  render();
+
+  if(REMOTE){
+    try{ state = await remoteFetch(); saveLocal(); render(); setSync("Sincronizado ✓","ok");
+      setTimeout(()=>setSync("",""),1500);
+    }catch(e){ setSync("Sin conexión (cache local)","error"); console.error(e); }
+
+    // "tiempo real" por polling cada 12s (no re-renderiza si estás editando un precio)
+    setInterval(async ()=>{
+      if(document.activeElement && document.activeElement.classList.contains("price")) return;
+      try{ const fresh = await remoteFetch(); state = fresh; saveLocal(); render(); }catch(e){}
+    }, 12000);
+  }
+}
+init();
 </script>
 
 </body>

@@ -172,8 +172,8 @@
    Deja estos dos valores VACÍOS para usar guardado local (por dispositivo).
    Pon tu Project URL y anon (public) key para que TODOS vean el mismo stock.
    ============================================================ */
-const SUPABASE_URL = "";   // ej: "https://abcdefgh.supabase.co"
-const SUPABASE_KEY = "";   // anon public key (empieza con eyJ...)
+const SUPABASE_URL = "https://svwfapftodjlhflrneyp.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2d2ZhcGZ0b2RqbGhmbHJuZXlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDYyMTYsImV4cCI6MjA5OTcyMjIxNn0.yV20zMAmCxs9fsOP0zY8wdlo_lsNt_Iyo2e3uVvTerM";
 const ADMIN_PIN    = "";   // opcional: PIN para entrar en modo edición ("" = sin PIN)
 
 const REMOTE = !!(SUPABASE_URL && SUPABASE_KEY);
@@ -255,7 +255,7 @@ function sbHeaders(){
   };
 }
 async function remoteFetch(){
-  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/inventory?select=product_id,in_stock,price";
+  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/elf_inventory?select=product_id,in_stock,price";
   const r = await fetch(url, {headers: sbHeaders()});
   if(!r.ok) throw new Error("GET "+r.status);
   const rows = await r.json();
@@ -267,7 +267,7 @@ async function remoteFetch(){
   return st;
 }
 async function remoteUpsert(id){
-  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/inventory";
+  const url = SUPABASE_URL.replace(/\/$/,"") + "/rest/v1/elf_inventory";
   const body = [{ product_id:id, in_stock:isInStock(id), price:getPrice(id) }];
   const r = await fetch(url, {
     method:"POST",

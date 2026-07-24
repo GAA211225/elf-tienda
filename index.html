@@ -288,7 +288,8 @@ function render(){
 /* ---------- AUTH ---------- */
 function updateAuthUI(){
   const logged = !!session;
-  document.getElementById("logoutBtn").style.display = logged ? "" : "none";
+  document.getElementById("logoutBtn").style.display = logged ? "inline-block" : "none";
+  document.getElementById("logoutBtn").textContent = logged && session.user ? ("Salir ("+session.user.email.split("@")[0]+")") : "Salir";
   const eb=document.getElementById("editBtn");
   if(!logged && editMode){ editMode=false; render(); }
   eb.classList.toggle("on", editMode);

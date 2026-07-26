@@ -87,6 +87,28 @@
   .empty-msg{text-align:center;color:var(--gray);padding:60px 20px;font-size:17px;}
   footer{text-align:center;padding:44px 20px 64px;color:var(--gray);font-size:12px;line-height:1.6;}
 
+  .wa-fab{
+    position:fixed;right:20px;bottom:20px;z-index:200;
+    width:60px;height:60px;border-radius:50%;
+    background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 22px rgba(0,0,0,0.28);text-decoration:none;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .wa-fab:hover{transform:scale(1.07);box-shadow:0 10px 26px rgba(0,0,0,0.34);}
+  .wa-fab svg{width:32px;height:32px;fill:#fff;}
+  .wa-tooltip{
+    position:fixed;right:88px;bottom:34px;z-index:200;
+    background:#fff;color:var(--text);padding:8px 14px;border-radius:12px;
+    font-size:13px;font-weight:600;box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;white-space:nowrap;
+  }
+  .wa-fab:hover + .wa-tooltip{opacity:1;}
+  @media (max-width:600px){
+    .wa-fab{width:54px;height:54px;right:16px;bottom:16px;}
+    .wa-fab svg{width:28px;height:28px;}
+    .wa-tooltip{display:none;}
+  }
+
   /* LOGIN MODAL */
   .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);
     display:none;align-items:center;justify-content:center;z-index:300;padding:20px;}
@@ -140,6 +162,11 @@
 <div id="categories"></div>
 <footer id="footerNote"></footer>
 
+<a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="Preguntar por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.23-8.26 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.79.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43a1.6 1.6 0 0 0 .25-.41.46.46 0 0 0-.02-.44c-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+</a>
+<span class="wa-tooltip">¿Dudas o existencias? Escríbenos</span>
+
 <!-- LOGIN MODAL -->
 <div class="modal-bg" id="authModal">
   <div class="modal">
@@ -166,6 +193,10 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TABLE = "elf_inventory";
 const IMG = (u)=>u.replace("width=300&height=300","width=600&height=600");
+
+const WHATSAPP_NUMBER = "5215539253036";
+const WHATSAPP_MSG = "Hola, tengo una duda sobre existencias en LIV Beauty Makeup Store 💄";
+document.getElementById("waFab").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
 
 const DATA = [
   { cat:"Rostro — Base y complexión", sub:"Bases, correctores y CC", items:[
@@ -215,15 +246,15 @@ const DATA = [
     {id:"pro-set-12-brushes", name:"Set de 12 Brochas Profesionales", desc:"Kit completo de 12 brochas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/1810_ProfessionalCompleteSetof12BrusheswebA.jpg?v=1776967371&width=300&height=300&crop=center")},
   ]},
   { cat:"Rubor Rare Beauty", sub:"El blush viral · $500 c/u · set completo (9 tonos) $4,100", items:[
-    {id:"rare-blush-joy", name:"Rare Beauty Blush — Joy", desc:"Durazno vibrante. Acabado natural, larga duración.", dprice:"$500", swatch:"#E8895F"},
-    {id:"rare-blush-lucky", name:"Rare Beauty Blush — Lucky", desc:"Rosa intenso.", dprice:"$500", swatch:"#D24E7A"},
-    {id:"rare-blush-love", name:"Rare Beauty Blush — Love", desc:"Terracota mate.", dprice:"$500", swatch:"#B5573F"},
-    {id:"rare-blush-encourage", name:"Rare Beauty Blush — Encourage", desc:"Rosa suave.", dprice:"$500", swatch:"#D98A86"},
-    {id:"rare-blush-happy", name:"Rare Beauty Blush — Happy", desc:"Rosa brillante.", dprice:"$500", swatch:"#E36FA0"},
-    {id:"rare-blush-grace", name:"Rare Beauty Blush — Grace", desc:"Rosa nude mate.", dprice:"$500", swatch:"#C77E7A"},
-    {id:"rare-blush-grateful", name:"Rare Beauty Blush — Grateful", desc:"Rojo clásico.", dprice:"$500", swatch:"#BE3B34"},
-    {id:"rare-blush-believe", name:"Rare Beauty Blush — Believe", desc:"Berry.", dprice:"$500", swatch:"#8E3B5E"},
-    {id:"rare-blush-hope", name:"Rare Beauty Blush — Hope", desc:"Nude rosado.", dprice:"$500", swatch:"#D69A94"},
+    {id:"rare-blush-joy", name:"Rare Beauty Blush — Joy", desc:"Durazno vibrante. Acabado natural, larga duración.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-joy.png?v=1727733705&width=400"},
+    {id:"rare-blush-lucky", name:"Rare Beauty Blush — Lucky", desc:"Rosa intenso.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-lucky.png?width=400"},
+    {id:"rare-blush-love", name:"Rare Beauty Blush — Love", desc:"Terracota mate.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-love.png?width=400"},
+    {id:"rare-blush-encourage", name:"Rare Beauty Blush — Encourage", desc:"Rosa suave.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-encourage.png?v=1727733844&width=400"},
+    {id:"rare-blush-happy", name:"Rare Beauty Blush — Happy", desc:"Rosa brillante.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-happy.png?v=1727733783&width=400"},
+    {id:"rare-blush-grace", name:"Rare Beauty Blush — Grace", desc:"Rosa nude mate.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-grace.png?width=400"},
+    {id:"rare-blush-grateful", name:"Rare Beauty Blush — Grateful", desc:"Rojo clásico.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-grateful.png?v=1727733811&width=400"},
+    {id:"rare-blush-believe", name:"Rare Beauty Blush — Believe", desc:"Berry.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-believe.png?width=400"},
+    {id:"rare-blush-hope", name:"Rare Beauty Blush — Hope", desc:"Nude rosado.", dprice:"$500", img:"https://www.rarebeauty.com/cdn/shop/files/swatch-b-hope.png?v=1727733747&width=400"},
   ]},
   { cat:"Perfumes 1.1", sub:"Aroma muy similar al original · docena $3,000", items:[
     {id:"perfume-11", name:"Perfume 1.1", desc:"Excelente fijación, no huele a alcohol, presentación idéntica al original. Docena $3,000.", dprice:"$350 c/u", icon:"🧴"},

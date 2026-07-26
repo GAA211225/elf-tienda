@@ -101,6 +101,21 @@
     font-size:12.5px;background:#fafafa;color:var(--text);outline:none;
   }
   .variant-row select:focus{border-color:var(--accent);}
+  .variant-label{font-size:11.5px;color:var(--gray);font-weight:600;margin-bottom:6px;}
+  .swatch-row{display:flex;flex-wrap:wrap;gap:7px;}
+  .swatch-chip{
+    width:26px;height:26px;border-radius:50%;cursor:pointer;flex-shrink:0;
+    border:2px solid transparent;box-shadow:0 0 0 1px rgba(0,0,0,0.12) inset;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .swatch-chip:hover{transform:scale(1.1);}
+  .swatch-chip.selected{border-color:var(--text);box-shadow:0 0 0 1px #fff inset, 0 0 0 2px var(--text);}
+  .size-chip{
+    padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:#fff;
+    font-size:12px;font-weight:600;cursor:pointer;transition:all .15s ease;
+  }
+  .size-chip:hover{border-color:var(--text);}
+  .size-chip.selected{background:#000;color:#fff;border-color:#000;}
   .add-row{margin-top:10px;display:flex;gap:8px;}
   .add-btn{
     flex:1;padding:9px 10px;border:none;border-radius:10px;background:#000;color:#fff;
@@ -425,12 +440,21 @@ function render(){
             ? `<div class="swatch" style="background:${item.swatch}"></div>`
             : `<div class="ph">${item.icon||'🛍️'}</div>`;
       const imgClass = hasColorVariants ? " swatchbg" : (item.img ? "" : (item.swatch ? " swatchbg" : " phbg"));
-      const variantHTML = (item.variants && item.variants.length) ? `
-        <div class="variant-row">
-          <select data-variant-for="${item.id}" ${hasColorVariants?'data-color-variant="1"':''}>
-            ${item.variants.map(v=>`<option value="${v}">${v}</option>`).join("")}
-          </select>
-        </div>` : "";
+      const variantHTML = (item.variants && item.variants.length) ? (
+        hasColorVariants
+          ? `<div class="variant-row" data-selected-variant="${item.variants[0]}" data-selected-for="${item.id}">
+               <div class="variant-label">Tono: <span data-selected-label>${item.variants[0]}</span></div>
+               <div class="swatch-row">
+                 ${item.variants.map((v,i)=>`<div class="swatch-chip${i===0?' selected':''}" style="background:${guessSwatchColor(v)}" data-chip-for="${item.id}" data-chip-value="${v}" title="${v}"></div>`).join("")}
+               </div>
+             </div>`
+          : `<div class="variant-row" data-selected-variant="${item.variants[0]}" data-selected-for="${item.id}">
+               <div class="variant-label">Talla: <span data-selected-label>${item.variants[0]}</span></div>
+               <div class="swatch-row">
+                 ${item.variants.map((v,i)=>`<div class="size-chip${i===0?' selected':''}" data-chip-for="${item.id}" data-chip-value="${v}">${v}</div>`).join("")}
+               </div>
+             </div>`
+      ) : "";
       const addHTML = (!editMode) ? `
         <div class="add-row">
           <button class="add-btn" data-add-id="${item.id}" ${inStock?"":"disabled"}>${inStock?"Agregar al carrito":"Agotado"}</button>
@@ -466,29 +490,30 @@ function render(){
     container.querySelectorAll('[data-add-id]').forEach(btn=>{
       btn.addEventListener("click",e=>{
         const id = e.target.dataset.addId;
-        const sel = container.querySelector(`select[data-variant-for="${id}"]`);
-        const variant = sel ? sel.value : "";
+        const row = container.querySelector(`.variant-row[data-selected-for="${id}"]`);
+        const variant = row ? row.dataset.selectedVariant : "";
         addToCart(id, variant);
         e.target.textContent = "✓ Agregado";
         e.target.classList.add("added");
         setTimeout(()=>{ e.target.textContent="Agregar al carrito"; e.target.classList.remove("added"); }, 1200);
       });
     });
-    container.querySelectorAll('select[data-color-variant]').forEach(sel=>{
-      sel.addEventListener("change",e=>{
-        const id = e.target.dataset.variantFor;
+    container.querySelectorAll('.swatch-chip, .size-chip').forEach(chip=>{
+      chip.addEventListener("click",e=>{
+        const id = e.target.dataset.chipFor;
+        const value = e.target.dataset.chipValue;
+        const row = container.querySelector(`.variant-row[data-selected-for="${id}"]`);
+        if(!row) return;
+        row.dataset.selectedVariant = value;
+        row.querySelector('[data-selected-label]').textContent = value;
+        row.querySelectorAll('.swatch-chip, .size-chip').forEach(c=>c.classList.toggle('selected', c.dataset.chipValue===value));
+
         const wrap = document.getElementById(`imgwrap-${id}`);
-        if(!wrap) return;
-        const color = guessSwatchColor(e.target.value);
-        let sw = wrap.querySelector('.swatch');
-        if(!sw){
-          wrap.innerHTML = wrap.querySelector('.badge').outerHTML + `<div class="swatch"></div><div class="shade-label"></div>`;
-          sw = wrap.querySelector('.swatch');
+        if(wrap && wrap.querySelector('.swatch')){
+          wrap.querySelector('.swatch').style.background = guessSwatchColor(value);
+          const lbl = wrap.querySelector('.shade-label');
+          if(lbl) lbl.textContent = value;
         }
-        sw.style.background = color;
-        let lbl = wrap.querySelector('.shade-label');
-        if(!lbl){ lbl = document.createElement('div'); lbl.className='shade-label'; wrap.appendChild(lbl); }
-        lbl.textContent = e.target.value;
       });
     });
   }

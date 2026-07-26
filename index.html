@@ -344,7 +344,7 @@ const DATA = [
     {id:"perfume-11", name:"Perfume 1.1", desc:"Excelente fijación, no huele a alcohol, presentación idéntica al original. Docena $3,000.", dprice:"$350 c/u", icon:"🧴"},
   ]},
   { cat:"Pijamas", sub:"Cómodas y suaves · tallas XS–XL", items:[
-    {id:"pijamas", name:"Pijamas", desc:"Súper cómodas, suaves y perfectas para dormir con estilo. A partir de 6 pz $300 c/u.", dprice:"$400", icon:"🌙", variants:["XS","S","M","L","XL"]},
+    {id:"pijamas", name:"Pijamas", desc:"Súper cómodas, suaves y perfectas para dormir con estilo. A partir de 6 pz $300 c/u.", dprice:"$400", icon:"🌙", variants:["XS","S","M","L","XL"], noColorSwatch:true},
   ]},
   { cat:"Cosmetiqueras y bolsitas", sub:"Elegantes y resistentes", items:[
     {id:"cosmetiqueras", name:"Cosmetiquera", desc:"Amplio espacio, material de excelente calidad. Ideal para viaje o uso diario.", dprice:"$600", icon:"👜"},
@@ -407,15 +407,19 @@ function render(){
           <span class="toggle-label">${inStock?'En inventario':'Sin inventario'}</span>
           <label class="switch"><input type="checkbox" ${inStock?"checked":""} data-id="${item.id}"><span class="slider"></span></label>
         </div>` : "";
-      const media = item.img
-        ? `<img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">`
-        : item.swatch
-          ? `<div class="swatch" style="background:${item.swatch}"></div>`
-          : `<div class="ph">${item.icon||'🛍️'}</div>`;
-      const imgClass = item.img ? "" : (item.swatch ? " swatchbg" : " phbg");
+      const hasColorVariants = item.variants && item.variants.length && !item.noColorSwatch;
+      const initialColor = hasColorVariants ? guessSwatchColor(item.variants[0]) : null;
+      const media = hasColorVariants
+        ? `<div class="swatch" style="background:${initialColor}"></div>`
+        : item.img
+          ? `<img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">`
+          : item.swatch
+            ? `<div class="swatch" style="background:${item.swatch}"></div>`
+            : `<div class="ph">${item.icon||'🛍️'}</div>`;
+      const imgClass = hasColorVariants ? " swatchbg" : (item.img ? "" : (item.swatch ? " swatchbg" : " phbg"));
       const variantHTML = (item.variants && item.variants.length) ? `
         <div class="variant-row">
-          <select data-variant-for="${item.id}">
+          <select data-variant-for="${item.id}" ${hasColorVariants?'data-color-variant="1"':''}>
             ${item.variants.map(v=>`<option value="${v}">${v}</option>`).join("")}
           </select>
         </div>` : "";
@@ -424,7 +428,7 @@ function render(){
           <button class="add-btn" data-add-id="${item.id}" ${inStock?"":"disabled"}>${inStock?"Agregar al carrito":"Agotado"}</button>
         </div>` : "";
       card.innerHTML=`
-        <div class="imgwrap${imgClass}">
+        <div class="imgwrap${imgClass}" id="imgwrap-${item.id}">
           <div class="badge ${inStock?'ok':'out'}">${inStock?'Disponible':'Agotado'}</div>
           ${media}
         </div>
@@ -462,6 +466,17 @@ function render(){
         setTimeout(()=>{ e.target.textContent="Agregar al carrito"; e.target.classList.remove("added"); }, 1200);
       });
     });
+    container.querySelectorAll('select[data-color-variant]').forEach(sel=>{
+      sel.addEventListener("change",e=>{
+        const id = e.target.dataset.variantFor;
+        const wrap = document.getElementById(`imgwrap-${id}`);
+        if(!wrap) return;
+        const color = guessSwatchColor(e.target.value);
+        let sw = wrap.querySelector('.swatch');
+        if(!sw){ wrap.innerHTML = wrap.querySelector('.badge').outerHTML + `<div class="swatch"></div>`; sw = wrap.querySelector('.swatch'); }
+        sw.style.background = color;
+      });
+    });
   }
 }
 
@@ -471,6 +486,46 @@ let cart = [];
 function loadCart(){ try{ const c=JSON.parse(localStorage.getItem(CART_KEY)); if(Array.isArray(c)) return c; }catch(e){} return []; }
 function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
 function findItemById(id){ for(const s of DATA) for(const i of s.items) if(i.id===id) return i; return null; }
+
+/* ---------- color aproximado por nombre de tono (para que la imagen cambie al elegir) ---------- */
+function guessSwatchColor(name){
+  const n = name.toLowerCase();
+  // tonos de piel (bases/correctores)
+  const skinTones = [
+    [/rich|deep|chocolate|ebony|caramel|cinnamon|cocoa|walnut/, "#5C3A24"],
+    [/tan|olive|latte(?!.*rose)|golden(?!.*goddess)/, "#B57F4E"],
+    [/medium/, "#D9A876"],
+    [/light/, "#EAC79A"],
+    [/fair/, "#F3DBBF"],
+  ];
+  for(const [re,hex] of skinTones){ if(re.test(n)) return hex; }
+  // colores nombrados (blush/labiales/delineador/sombras/cejas)
+  const named = [
+    [/black|pitch|kohl|velvet ?black/, "#1a1a1a"],
+    [/blonde/, "#C9A876"],
+    [/taupe|neutral brown/, "#8a6f5c"],
+    [/auburn/, "#8a4a2f"],
+    [/brown|espresso|mocha|cocoa|walnut|chestnut/, "#5b3a29"],
+    [/berry|plum|burgun|merlot|wine/, "#6e2a44"],
+    [/red|cherry|fiery/, "#b23a3a"],
+    [/mauve/, "#a9707a"],
+    [/rose|pink quartz|petal|pinkies|baddest beige/, "#e2a3ad"],
+    [/fuchsia/, "#c23b8a"],
+    [/coral|guava|orange/, "#e8815a"],
+    [/peach/, "#f0b48f"],
+    [/beige|nude|sand/, "#d8b795"],
+    [/gold|champagne|crystal|pearl/, "#d4af6a"],
+    [/copper|amethyst|magnetic/, "#a86a4a"],
+    [/emerald|green/, "#2f6b4f"],
+    [/denim|sky|blue/, "#3f5f8a"],
+    [/clear|transparent/, "#e9e6df"],
+    [/cream|latte|sugar/, "#e7d3b0"],
+    [/dreamsicle|jalapeño|pumpkin/, "#e0793a"],
+    [/smokeshow|smoke/, "#6b6b6b"],
+  ];
+  for(const [re,hex] of named){ if(re.test(n)) return hex; }
+  return "#c9a0a8";
+}
 
 function addToCart(id, variant){
   const existing = cart.find(c=>c.id===id && c.variant===variant);

@@ -87,6 +87,70 @@
   .empty-msg{text-align:center;color:var(--gray);padding:60px 20px;font-size:17px;}
   footer{text-align:center;padding:44px 20px 64px;color:var(--gray);font-size:12px;line-height:1.6;}
 
+  /* VARIANT PICKER + ADD TO CART */
+  .variant-row{margin-top:10px;}
+  .variant-row select{
+    width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:10px;
+    font-size:12.5px;background:#fafafa;color:var(--text);outline:none;
+  }
+  .variant-row select:focus{border-color:var(--accent);}
+  .add-row{margin-top:10px;display:flex;gap:8px;}
+  .add-btn{
+    flex:1;padding:9px 10px;border:none;border-radius:10px;background:#000;color:#fff;
+    font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;
+  }
+  .add-btn:hover{opacity:0.85;}
+  .add-btn:disabled{opacity:0.35;cursor:default;}
+  .add-btn.added{background:var(--ok);}
+
+  /* CART FAB + BADGE */
+  .cart-btn{
+    position:relative;padding:6px 13px;border-radius:980px;border:1px solid #48484a;
+    background:transparent;color:#f5f5f7;font-size:13px;cursor:pointer;white-space:nowrap;
+    display:flex;align-items:center;gap:6px;
+  }
+  .cart-btn:hover{background:#f5f5f7;color:#000;}
+  .cart-badge{
+    background:var(--out);color:#fff;font-size:10px;font-weight:700;border-radius:980px;
+    min-width:17px;height:17px;display:none;align-items:center;justify-content:center;padding:0 4px;
+  }
+  .cart-badge.show{display:inline-flex;}
+
+  /* CART DRAWER */
+  .cart-bg{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);
+    display:none;z-index:290;}
+  .cart-bg.show{display:block;}
+  .cart-drawer{
+    position:fixed;top:0;right:0;bottom:0;width:100%;max-width:420px;background:#fff;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.25);display:flex;flex-direction:column;
+    transform:translateX(100%);transition:transform .3s ease;z-index:291;
+  }
+  .cart-bg.show .cart-drawer{transform:translateX(0);}
+  .cart-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;
+    align-items:center;justify-content:space-between;}
+  .cart-head h3{font-size:20px;font-weight:600;letter-spacing:-0.01em;}
+  .cart-head .close{cursor:pointer;color:var(--gray);font-size:24px;line-height:1;}
+  .cart-items{flex:1;overflow-y:auto;padding:14px 22px;}
+  .cart-empty{text-align:center;color:var(--gray);padding:60px 20px;font-size:14px;}
+  .cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f2;align-items:center;}
+  .cart-item .ci-name{font-size:14px;font-weight:600;}
+  .cart-item .ci-variant{font-size:12px;color:var(--gray);margin-top:2px;}
+  .cart-item .ci-price{font-size:12.5px;color:var(--gray);margin-top:2px;}
+  .cart-item .ci-qty{display:flex;align-items:center;gap:8px;margin-left:auto;}
+  .ci-qty button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);
+    background:#fff;cursor:pointer;font-size:14px;line-height:1;}
+  .ci-remove{color:var(--out);font-size:12px;cursor:pointer;margin-left:10px;white-space:nowrap;}
+  .cart-foot{padding:18px 22px 22px;border-top:1px solid var(--border);}
+  .cart-foot .cnote{font-size:11.5px;color:var(--gray);margin-bottom:12px;line-height:1.5;}
+  .wa-send-btn{
+    width:100%;padding:13px;border:none;border-radius:12px;background:#25D366;color:#fff;
+    font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .wa-send-btn:hover{opacity:0.92;}
+  .wa-send-btn:disabled{opacity:0.4;cursor:default;}
+  .wa-send-btn svg{width:20px;height:20px;fill:#fff;}
+  .clear-cart{display:block;text-align:center;font-size:12px;color:var(--gray);margin-top:12px;cursor:pointer;text-decoration:underline;}
+
   .wa-fab{
     position:fixed;right:20px;bottom:20px;z-index:200;
     width:60px;height:60px;border-radius:50%;
@@ -144,6 +208,7 @@
     <span class="stats" id="statsBar">—</span>
     <span class="sync" id="syncBar"></span>
     <button class="logout-btn" id="logoutBtn">Salir</button>
+    <button class="cart-btn" id="cartBtn">🛍️ Carrito <span class="cart-badge" id="cartBadge">0</span></button>
     <button class="edit-btn" id="editBtn">🔒 Editar</button>
   </div>
 </nav>
@@ -166,6 +231,25 @@
   <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.23-8.26 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.79.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43a1.6 1.6 0 0 0 .25-.41.46.46 0 0 0-.02-.44c-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
 </a>
 <span class="wa-tooltip">¿Dudas o existencias? Escríbenos</span>
+
+<!-- CART DRAWER -->
+<div class="cart-bg" id="cartBg">
+  <div class="cart-drawer">
+    <div class="cart-head">
+      <h3>Tu carrito</h3>
+      <span class="close" id="cartClose">&times;</span>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot">
+      <div class="cnote">Al enviar, se abrirá WhatsApp con tu pedido para que confirmemos existencia y te cerremos la compra.</div>
+      <button class="wa-send-btn" id="cartSendBtn">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.23-8.26 8.23z"/></svg>
+        Enviar pedido por WhatsApp
+      </button>
+      <span class="clear-cart" id="clearCartBtn">Vaciar carrito</span>
+    </div>
+  </div>
+</div>
 
 <!-- LOGIN MODAL -->
 <div class="modal-bg" id="authModal">
@@ -200,38 +284,38 @@ document.getElementById("waFab").href = `https://wa.me/${WHATSAPP_NUMBER}?text=$
 
 const DATA = [
   { cat:"Rostro — Base y complexión", sub:"Bases, correctores y CC", items:[
-    {id:"halo-glow-liquid-filter", name:"Halo Glow Liquid Filter", desc:"Iluminador líquido, efecto piel con filtro.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82114_OpenA_R_b1d1c727-4344-4acb-b2df-f81bccc36794.png?v=1780430133&width=300&height=300&crop=center")},
-    {id:"halo-glow-skin-tint", name:"Halo Glow Skin Tint SPF 50", desc:"Base ligera luminosa con protección solar.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/HaloGlowSkinTint_84506_def3c1bc-10cd-43fb-be8f-d9ee163b7ac6.png?v=1780255768&width=300&height=300&crop=center")},
-    {id:"soft-glam-satin-foundation", name:"Soft Glam Satin Foundation", desc:"Base acabado satinado, cobertura media.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84942_Open_A_v2_R_8bf78f0d-e7cd-4be8-817c-099e48f0dbba.png?v=1780429621&width=300&height=300&crop=center")},
-    {id:"hydrating-camo-concealer", name:"Hydrating Camo Concealer", desc:"Corrector hidratante de alta cobertura.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84824_Open_A_R.png?v=1776967312&width=300&height=300&crop=center")},
-    {id:"soft-glam-satin-concealer", name:"Soft Glam Satin Concealer", desc:"Corrector acabado satinado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85182_OpenA_R.png?v=1779830978&width=300&height=300&crop=center")},
+    {id:"halo-glow-liquid-filter", name:"Halo Glow Liquid Filter", desc:"Iluminador líquido, efecto piel con filtro.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82114_OpenA_R_b1d1c727-4344-4acb-b2df-f81bccc36794.png?v=1780430133&width=300&height=300&crop=center"), variants:["0 Fair Neutral Warm","0.5 Fair Cool","1 Fair Neutral Peach","2 Fair/Light","3 Light/Medium Cool","4 Medium Neutral","5 Medium/Tan Warm","6 Tan/Deep Warm","7 Deep/Rich Cool","8 Rich Cool"]},
+    {id:"halo-glow-skin-tint", name:"Halo Glow Skin Tint SPF 50", desc:"Base ligera luminosa con protección solar.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/HaloGlowSkinTint_84506_def3c1bc-10cd-43fb-be8f-d9ee163b7ac6.png?v=1780255768&width=300&height=300&crop=center"), variants:["1 Fair","4 Light","7W Medium","8N Medium","10N Tan","13N Deep","16C Rich","18N Rich"]},
+    {id:"soft-glam-satin-foundation", name:"Soft Glam Satin Foundation", desc:"Base acabado satinado, cobertura media.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84942_Open_A_v2_R_8bf78f0d-e7cd-4be8-817c-099e48f0dbba.png?v=1780429621&width=300&height=300&crop=center"), variants:["10 Fair Cool","20 Light Cool","23 Light Cool","30 Medium Warm","33 Medium Warm","40 Tan Warm","44 Tan Cool","50 Deep Warm","54 Deep Neutral","60 Rich Cool","64 Rich Neutral"]},
+    {id:"hydrating-camo-concealer", name:"Hydrating Camo Concealer", desc:"Corrector hidratante de alta cobertura.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84824_Open_A_R.png?v=1776967312&width=300&height=300&crop=center"), variants:["Fair Rose","Fair Beige","Light Ivory","Light Peach","Medium Peach","Medium Beige","Medium Golden","Tan Sand","Tan Neutral","Deep Olive","Deep Caramel","Rich Chocolate","Rich Ebony"]},
+    {id:"soft-glam-satin-concealer", name:"Soft Glam Satin Concealer", desc:"Corrector acabado satinado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/85182_OpenA_R.png?v=1779830978&width=300&height=300&crop=center"), variants:["10 Fair Cool","20 Light Cool","30 Medium Warm","40 Tan Warm","50 Deep Warm","60 Rich Cool"]},
     {id:"halo-glow-powder-filter", name:"Halo Glow Powder Filter", desc:"Polvo iluminador multiusos.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/84545_CLOSED_v5_R.png?v=1776967270&width=300&height=300&crop=center")},
-    {id:"sheer-for-it-blush-tint", name:"Sheer For It Blush Tint", desc:"Tinte líquido para mejillas, acabado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83696_OpenA_R_9b565ce2-da16-442d-a1c7-3fad048000a4.png?v=1778620728&width=300&height=300&crop=center")},
+    {id:"sheer-for-it-blush-tint", name:"Sheer For It Blush Tint", desc:"Tinte líquido para mejillas, acabado natural.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83696_OpenA_R_9b565ce2-da16-442d-a1c7-3fad048000a4.png?v=1778620728&width=300&height=300&crop=center"), variants:["Burgun-did That","Mauve Actually","Maple Latte","So Petal","Orange Crush","Pink Positive","Plums Up","Cherry Cola","Left on Red"]},
   ]},
   { cat:"Ojos", sub:"Sombras, delineador y máscara", items:[
-    {id:"bite-size-eyeshadow", name:"Bite-Size Eyeshadow", desc:"Mini paletas de sombras, alta pigmentación.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21151_OpenA_R.png?v=1776967203&width=300&height=300&crop=center")},
+    {id:"bite-size-eyeshadow", name:"Bite-Size Eyeshadow", desc:"Mini paletas de sombras, alta pigmentación.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21151_OpenA_R.png?v=1776967203&width=300&height=300&crop=center"), variants:["Orange Dreamsicle","I Love You a Latte","Cream & Sugar","Rose Water","Berry Bad","Pumpkin Pie","Hot Jalapeño","Açaí You","Truffles","Carnival Candy","Take Your Pink","Total Smokeshow","Cold Brew"]},
     {id:"perfect-10-palette", name:"Perfect 10 Eyeshadow Palette", desc:"Paleta de 10 sombras coordinadas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83279_OpenA_R.png?v=1776967356&width=300&height=300&crop=center")},
-    {id:"no-budge-shadow-stick", name:"No Budge Shadow Stick", desc:"Sombra en stick de larga duración.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81665_BRFAC_OpenA_R.png?v=1776967346&width=300&height=300&crop=center")},
+    {id:"no-budge-shadow-stick", name:"No Budge Shadow Stick", desc:"Sombra en stick de larga duración.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81665_BRFAC_OpenA_R.png?v=1776967346&width=300&height=300&crop=center"), variants:["Perfect Pearl","Rose Gold","Magnetic Pull","Champagne Crystal","Rich Amethyst","Copper Chic","Rose Quartz","Golden Goddess"]},
     {id:"liquid-velvet-eyeshadow", name:"Liquid Velvet Eyeshadow", desc:"Sombra líquida acabado aterciopelado.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83674_OpenA_R.png?v=1780638553&width=300&height=300&crop=center")},
     {id:"fine-as-fleck-glitter", name:"Fine as Fleck Glitter Eyeshadow", desc:"Sombra con glitter fino.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82272_OPEN_R.png?v=1776967235&width=300&height=300&crop=center")},
     {id:"glitzshow-eyeshadow-stick", name:"Glitzshow Eyeshadow Stick", desc:"Stick de sombra con brillo intenso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83795_OpenA_V2_R.png?v=1778726008&width=300&height=300&crop=center")},
-    {id:"smoky-kohl-eyeliner", name:"Smoky Kohl Eyeliner", desc:"Delineador kohl para ahumados.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22010_OpenA_R.png?v=1779830240&width=300&height=300&crop=center")},
-    {id:"lash-xtndr-mascara", name:"Lash XTNDR Mascara", desc:"Máscara de pestañas con efecto extensión.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81588_Open_B_0005_Product_Master_V4_R.png?v=1776967332&width=300&height=300&crop=center")},
+    {id:"smoky-kohl-eyeliner", name:"Smoky Kohl Eyeliner", desc:"Delineador kohl para ahumados.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22010_OpenA_R.png?v=1779830240&width=300&height=300&crop=center"), variants:["Black Velvet","Cloud Nine","Brownie Points","Smoke Signal","Vintage Denim","Rare Emerald","Sky High","Limelight","Berry Necessary","French Roast","Beige Flag","Plum & Go"]},
+    {id:"lash-xtndr-mascara", name:"Lash XTNDR Mascara", desc:"Máscara de pestañas con efecto extensión.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81588_Open_B_0005_Product_Master_V4_R.png?v=1776967332&width=300&height=300&crop=center"), variants:["Pitch Black","Soft Black","Deep Brown"]},
   ]},
   { cat:"Cejas", sub:"Lápices y geles", items:[
-    {id:"instant-lift-brow-pencil", name:"Instant Lift Brow Pencil", desc:"Lápiz de cejas con efecto lifting.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21723_brow_liftwebA.jpg?v=1776967315&width=300&height=300&crop=center")},
+    {id:"instant-lift-brow-pencil", name:"Instant Lift Brow Pencil", desc:"Lápiz de cejas con efecto lifting.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21723_brow_liftwebA.jpg?v=1776967315&width=300&height=300&crop=center"), variants:["Taupe","Neutral Brown","Deep Brown","Blonde","Auburn","Black"]},
     {id:"wow-brow-gel", name:"Wow Brow Gel", desc:"Gel fijador de cejas con color.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83574_WowBrowGel__ComponentOpen.png?v=1776967414&width=300&height=300&crop=center")},
     {id:"brow-laminating-gel", name:"Brow Laminating Gel", desc:"Gel laminador para fijar y peinar cejas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81765_OpenA_2_R.png?v=1776967205&width=300&height=300&crop=center")},
     {id:"clear-brow-lash-mascara", name:"Clear Brow & Lash Mascara", desc:"Gel transparente para cejas y pestañas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21663_EYBRW_OpenA_R.png?v=1776967206&width=300&height=300&crop=center")},
   ]},
   { cat:"Labios", sub:"Oils, stains y liners", items:[
-    {id:"glow-reviver-lip-oil", name:"Glow Reviver Lip Oil", desc:"Aceite labial hidratante, el más vendido.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82006_OpenA_R_716ea6b8-6db6-470d-8d0c-e806cfccc350.png?v=1780264216&width=300&height=300&crop=center")},
+    {id:"glow-reviver-lip-oil", name:"Glow Reviver Lip Oil", desc:"Aceite labial hidratante, el más vendido.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82006_OpenA_R_716ea6b8-6db6-470d-8d0c-e806cfccc350.png?v=1780264216&width=300&height=300&crop=center"), variants:["Pink Quartz","Honey Talks","Rose Envy","Coral Fixation","Red Delicious","Jam Session","Crystal Clear","Money Mauve","It's Giving Guava","Hot as Fudge"]},
     {id:"glow-reviver-melting-balm", name:"Glow Reviver Melting Lip Balm", desc:"Bálsamo labial fundente con color.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83472_OpenA_R_b53eede9-4d92-422a-bfd9-58c28bad3b08.png?v=1780439753&width=300&height=300&crop=center")},
     {id:"glow-reviver-lip-oil-stick", name:"Glow Reviver Lip Oil Stick", desc:"Aceite labial en formato stick.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/Rose_Latte_1.avif?v=1779287987&width=300&height=300&crop=center")},
-    {id:"cream-glide-lip-liner", name:"Cream Glide Lip Liner", desc:"Delineador de labios cremoso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22094_OpenB_R_c27fe89d-333c-431f-b803-a11de3912770.png?v=1780264315&width=300&height=300&crop=center")},
+    {id:"cream-glide-lip-liner", name:"Cream Glide Lip Liner", desc:"Delineador de labios cremoso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/22094_OpenB_R_c27fe89d-333c-431f-b803-a11de3912770.png?v=1780264315&width=300&height=300&crop=center"), variants:["Dark Cocoa","Truth or Bare","Pinky Swear","Mauve Aside","Baddest Beige","Spill the Tea","Red Receipt","Plum & Get It","That Merlot Tho","Fuchsia Forward"]},
     {id:"main-stain-lip-marker", name:"Main Stain Lip Marker", desc:"Marcador labial tipo tinta.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/83609_OpenA_R.jpg?v=1778620594&width=300&height=300&crop=center")},
     {id:"lip-lacquer", name:"Lip Lacquer", desc:"Gloss labial de acabado brillante.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/21171_OpenA_V2_R.png?v=1776967337&width=300&height=300&crop=center")},
-    {id:"glossy-lip-stain", name:"Glossy Lip Stain", desc:"Tinta labial con acabado glossy.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81682_OpenA_R_Final.png?v=1776967245&width=300&height=300&crop=center")},
+    {id:"glossy-lip-stain", name:"Glossy Lip Stain", desc:"Tinta labial con acabado glossy.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81682_OpenA_R_Final.png?v=1776967245&width=300&height=300&crop=center"), variants:["Basic Beige","Pinkies Up","Spicy Sienna","Cinnamon Dreamz","Fiery Red","Berry Queen","Coral Cutie","Power Mauves","Polished Peach","Rose Rizzin'","Fuchsia Fantasy"]},
   ]},
   { cat:"Primers y fijadores", sub:"Colección Power Grip", items:[
     {id:"power-grip-primer", name:"Power Grip Primer", desc:"Primer hidratante con grip pegajoso.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/82846_OpenA_R_ee84794a-a423-4781-8f1b-8299e65abb11.png?v=1778006929&width=300&height=300&crop=center")},
@@ -260,7 +344,7 @@ const DATA = [
     {id:"perfume-11", name:"Perfume 1.1", desc:"Excelente fijación, no huele a alcohol, presentación idéntica al original. Docena $3,000.", dprice:"$350 c/u", icon:"🧴"},
   ]},
   { cat:"Pijamas", sub:"Cómodas y suaves · tallas XS–XL", items:[
-    {id:"pijamas", name:"Pijamas", desc:"Súper cómodas, suaves y perfectas para dormir con estilo. Tallas XS–XL. A partir de 6 pz $300 c/u.", dprice:"$400", icon:"🌙"},
+    {id:"pijamas", name:"Pijamas", desc:"Súper cómodas, suaves y perfectas para dormir con estilo. A partir de 6 pz $300 c/u.", dprice:"$400", icon:"🌙", variants:["XS","S","M","L","XL"]},
   ]},
   { cat:"Cosmetiqueras y bolsitas", sub:"Elegantes y resistentes", items:[
     {id:"cosmetiqueras", name:"Cosmetiquera", desc:"Amplio espacio, material de excelente calidad. Ideal para viaje o uso diario.", dprice:"$600", icon:"👜"},
@@ -329,6 +413,16 @@ function render(){
           ? `<div class="swatch" style="background:${item.swatch}"></div>`
           : `<div class="ph">${item.icon||'🛍️'}</div>`;
       const imgClass = item.img ? "" : (item.swatch ? " swatchbg" : " phbg");
+      const variantHTML = (item.variants && item.variants.length) ? `
+        <div class="variant-row">
+          <select data-variant-for="${item.id}">
+            ${item.variants.map(v=>`<option value="${v}">${v}</option>`).join("")}
+          </select>
+        </div>` : "";
+      const addHTML = (!editMode) ? `
+        <div class="add-row">
+          <button class="add-btn" data-add-id="${item.id}" ${inStock?"":"disabled"}>${inStock?"Agregar al carrito":"Agotado"}</button>
+        </div>` : "";
       card.innerHTML=`
         <div class="imgwrap${imgClass}">
           <div class="badge ${inStock?'ok':'out'}">${inStock?'Disponible':'Agotado'}</div>
@@ -337,7 +431,9 @@ function render(){
         <div class="name">${item.name}</div>
         <div class="desc">${item.desc}</div>
         <span class="price ${editMode?'editable':'readonly'}" ${editMode?'contenteditable="true"':''} data-id="${item.id}" spellcheck="false">${getPrice(item.id)}</span>
-        ${toggleHTML}`;
+        ${toggleHTML}
+        ${variantHTML}
+        ${addHTML}`;
       grid.appendChild(card);
     });
     cat.appendChild(grid); container.appendChild(cat);
@@ -354,8 +450,100 @@ function render(){
       el.addEventListener("blur",e=>{ state.prices[e.target.dataset.id]=e.target.textContent.trim(); saveCache(); remoteUpsert(e.target.dataset.id); });
       el.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); e.target.blur(); } });
     });
+  } else {
+    container.querySelectorAll('[data-add-id]').forEach(btn=>{
+      btn.addEventListener("click",e=>{
+        const id = e.target.dataset.addId;
+        const sel = container.querySelector(`select[data-variant-for="${id}"]`);
+        const variant = sel ? sel.value : "";
+        addToCart(id, variant);
+        e.target.textContent = "✓ Agregado";
+        e.target.classList.add("added");
+        setTimeout(()=>{ e.target.textContent="Agregar al carrito"; e.target.classList.remove("added"); }, 1200);
+      });
+    });
   }
 }
+
+/* ---------- CARRITO ---------- */
+const CART_KEY = "liv_beauty_cart";
+let cart = [];
+function loadCart(){ try{ const c=JSON.parse(localStorage.getItem(CART_KEY)); if(Array.isArray(c)) return c; }catch(e){} return []; }
+function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function findItemById(id){ for(const s of DATA) for(const i of s.items) if(i.id===id) return i; return null; }
+
+function addToCart(id, variant){
+  const existing = cart.find(c=>c.id===id && c.variant===variant);
+  if(existing){ existing.qty++; } else { cart.push({id, variant, qty:1}); }
+  saveCart(); renderCartBadge();
+}
+function removeFromCart(idx){ cart.splice(idx,1); saveCart(); renderCartBadge(); renderCartItems(); }
+function changeQty(idx, delta){
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0) cart.splice(idx,1);
+  saveCart(); renderCartBadge(); renderCartItems();
+}
+function cartCount(){ return cart.reduce((n,c)=>n+c.qty,0); }
+function renderCartBadge(){
+  const badge = document.getElementById("cartBadge");
+  const n = cartCount();
+  badge.textContent = n;
+  badge.classList.toggle("show", n>0);
+}
+function renderCartItems(){
+  const wrap = document.getElementById("cartItems");
+  if(cart.length===0){ wrap.innerHTML = `<div class="cart-empty">Tu carrito está vacío.<br>Agrega productos desde el catálogo.</div>`; return; }
+  wrap.innerHTML = cart.map((c,idx)=>{
+    const item = findItemById(c.id);
+    if(!item) return "";
+    return `
+      <div class="cart-item">
+        <div>
+          <div class="ci-name">${item.name}</div>
+          ${c.variant ? `<div class="ci-variant">${c.variant}</div>` : ""}
+          <div class="ci-price">${getPrice(item.id)||""}</div>
+        </div>
+        <div class="ci-qty">
+          <button data-qty-idx="${idx}" data-delta="-1">−</button>
+          <span>${c.qty}</span>
+          <button data-qty-idx="${idx}" data-delta="1">+</button>
+        </div>
+        <span class="ci-remove" data-remove-idx="${idx}">Quitar</span>
+      </div>`;
+  }).join("");
+  wrap.querySelectorAll('[data-qty-idx]').forEach(b=>{
+    b.addEventListener("click",e=>changeQty(parseInt(e.target.dataset.qtyIdx), parseInt(e.target.dataset.delta)));
+  });
+  wrap.querySelectorAll('[data-remove-idx]').forEach(b=>{
+    b.addEventListener("click",e=>removeFromCart(parseInt(e.target.dataset.removeIdx)));
+  });
+}
+function openCart(){ renderCartItems(); document.getElementById("cartBg").classList.add("show"); }
+function closeCart(){ document.getElementById("cartBg").classList.remove("show"); }
+function buildCartWhatsAppMessage(){
+  let lines = ["Hola, quiero pedir lo siguiente en LIV Beauty Makeup Store 💄:", ""];
+  cart.forEach(c=>{
+    const item = findItemById(c.id);
+    if(!item) return;
+    const variant = c.variant ? ` (${c.variant})` : "";
+    const price = getPrice(item.id);
+    lines.push(`• ${c.qty}x ${item.name}${variant}${price?` — ${price}`:""}`);
+  });
+  lines.push("", "¿Me confirman existencia y cómo cerramos la compra? 🙏");
+  return lines.join("\n");
+}
+document.getElementById("cartBtn").addEventListener("click", openCart);
+document.getElementById("cartClose").addEventListener("click", closeCart);
+document.getElementById("cartBg").addEventListener("click",e=>{ if(e.target.id==="cartBg") closeCart(); });
+document.getElementById("clearCartBtn").addEventListener("click",()=>{
+  if(cart.length===0) return;
+  if(confirm("¿Vaciar todo el carrito?")){ cart=[]; saveCart(); renderCartBadge(); renderCartItems(); }
+});
+document.getElementById("cartSendBtn").addEventListener("click",()=>{
+  if(cart.length===0) return;
+  const msg = buildCartWhatsAppMessage();
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+});
 
 /* ---------- AUTH ---------- */
 function updateAuthUI(){
@@ -428,6 +616,7 @@ document.querySelectorAll(".filters button").forEach(btn=>{
 /* ---------- arranque ---------- */
 async function init(){
   document.getElementById("footerNote").innerHTML='LIV Beauty Makeup Store · Inventario compartido y protegido · Solo el administrador puede editar (login).<br>Fotos de e.l.f. y Rare Beauty son de sus marcas, uso de referencia.';
+  cart=loadCart(); renderCartBadge();
   state=loadCache(); render();
 
   const {data:{session:s}} = await db.auth.getSession();

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>elf. — Tienda</title>
+<title>LIV Beauty Makeup Store</title>
 <style>
   :root{
     --text:#1d1d1f; --text-light:#f5f5f7; --gray:#86868b; --accent:#0071e3;
@@ -57,6 +57,11 @@
   .imgwrap{background:#f5f5f7;border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;
     justify-content:center;overflow:hidden;position:relative;margin-bottom:12px;}
   .imgwrap img{width:100%;height:100%;object-fit:contain;padding:6px;transition:filter .25s ease;}
+  .imgwrap.phbg{background:linear-gradient(135deg,#fdeef2,#eef1fb);}
+  .imgwrap.swatchbg{background:#faf7f8;}
+  .swatch{width:58%;aspect-ratio:1;border-radius:50%;box-shadow:inset 0 -8px 16px rgba(0,0,0,.18), 0 6px 16px rgba(0,0,0,.14);transition:filter .25s ease;}
+  .ph{font-size:70px;line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12));transition:filter .25s ease;}
+  .card.out .swatch, .card.out .ph{filter:grayscale(0.85) opacity(0.55);}
   .badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:600;padding:4px 10px;
     border-radius:980px;letter-spacing:.02em;backdrop-filter:blur(8px);}
   .badge.ok{background:rgba(29,185,84,0.14);color:#0f8a3c;}
@@ -112,7 +117,7 @@
 <body>
 
 <nav>
-  <div class="logo">elf. tienda</div>
+  <div class="logo">LIV Beauty</div>
   <div class="right">
     <span class="stats" id="statsBar">—</span>
     <span class="sync" id="syncBar"></span>
@@ -122,8 +127,8 @@
 </nav>
 
 <div class="hero">
-  <h1>elf. Cosmetics</h1>
-  <p id="heroSub">Catálogo de productos</p>
+  <h1>LIV Beauty</h1>
+  <p id="heroSub">Makeup Store · maquillaje, perfumes y más</p>
   <div class="search-wrap"><input type="text" id="searchInput" placeholder="Buscar producto..."></div>
   <div class="filters">
     <button class="active" data-filter="all">Todos</button>
@@ -209,7 +214,37 @@ const DATA = [
     {id:"smooth-swipe-foundation-brush", name:"Smooth Swipe Foundation Brush", desc:"Brocha para aplicar base.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/81456_Closed_V2_R.png?v=1776967382&width=300&height=300&crop=center")},
     {id:"pro-set-12-brushes", name:"Set de 12 Brochas Profesionales", desc:"Kit completo de 12 brochas.", img:IMG("https://cdn.shopify.com/s/files/1/0661/2251/4520/files/1810_ProfessionalCompleteSetof12BrusheswebA.jpg?v=1776967371&width=300&height=300&crop=center")},
   ]},
+  { cat:"Rubor Rare Beauty", sub:"El blush viral · $500 c/u · set completo (9 tonos) $4,100", items:[
+    {id:"rare-blush-joy", name:"Rare Beauty Blush — Joy", desc:"Durazno vibrante. Acabado natural, larga duración.", dprice:"$500", swatch:"#E8895F"},
+    {id:"rare-blush-lucky", name:"Rare Beauty Blush — Lucky", desc:"Rosa intenso.", dprice:"$500", swatch:"#D24E7A"},
+    {id:"rare-blush-love", name:"Rare Beauty Blush — Love", desc:"Terracota mate.", dprice:"$500", swatch:"#B5573F"},
+    {id:"rare-blush-encourage", name:"Rare Beauty Blush — Encourage", desc:"Rosa suave.", dprice:"$500", swatch:"#D98A86"},
+    {id:"rare-blush-happy", name:"Rare Beauty Blush — Happy", desc:"Rosa brillante.", dprice:"$500", swatch:"#E36FA0"},
+    {id:"rare-blush-grace", name:"Rare Beauty Blush — Grace", desc:"Rosa nude mate.", dprice:"$500", swatch:"#C77E7A"},
+    {id:"rare-blush-grateful", name:"Rare Beauty Blush — Grateful", desc:"Rojo clásico.", dprice:"$500", swatch:"#BE3B34"},
+    {id:"rare-blush-believe", name:"Rare Beauty Blush — Believe", desc:"Berry.", dprice:"$500", swatch:"#8E3B5E"},
+    {id:"rare-blush-hope", name:"Rare Beauty Blush — Hope", desc:"Nude rosado.", dprice:"$500", swatch:"#D69A94"},
+  ]},
+  { cat:"Perfumes 1.1", sub:"Aroma muy similar al original · docena $3,000", items:[
+    {id:"perfume-11", name:"Perfume 1.1", desc:"Excelente fijación, no huele a alcohol, presentación idéntica al original. Docena $3,000.", dprice:"$350 c/u", icon:"🧴"},
+  ]},
+  { cat:"Pijamas", sub:"Cómodas y suaves · tallas XS–XL", items:[
+    {id:"pijamas", name:"Pijamas", desc:"Súper cómodas, suaves y perfectas para dormir con estilo. Tallas XS–XL. A partir de 6 pz $300 c/u.", dprice:"$400", icon:"🌙"},
+  ]},
+  { cat:"Cosmetiqueras y bolsitas", sub:"Elegantes y resistentes", items:[
+    {id:"cosmetiqueras", name:"Cosmetiquera", desc:"Amplio espacio, material de excelente calidad. Ideal para viaje o uso diario.", dprice:"$600", icon:"👜"},
+    {id:"bolsitas-caja", name:"Bolsita con caja", desc:"Presentación con caja de regalo.", dprice:"$1,200", icon:"🎁"},
+  ]},
+  { cat:"Lotes de ropa — Zara & Bershka", sub:"Ropa nueva con etiqueta · ideal reventa", items:[
+    {id:"lote-ropa", name:"Lote de ropa Zara & Bershka", desc:"Blusas, blazers, pantalones, jumpers, faldas y más. Tallas CH–XL. Lotes: 20pz $3,800 · 30pz $5,400 · 50pz $7,500 · 70pz $9,100 · 100pz $11,000.", dprice:"desde $3,800", icon:"🛍️"},
+  ]},
+  { cat:"Lote Premium de Maquillaje", sub:"Marcas de lujo originales · por lote", items:[
+    {id:"lote-premium", name:"Lote Premium de Maquillaje", desc:"Dior, Chanel, Charlotte Tilbury, Natasha Denona, Givenchy, Sol de Janeiro y más. Se vende por imagen (no piezas sueltas). Envíos nacionales.", dprice:"$12,500", icon:"💎"},
+  ]},
 ];
+
+const DPRICE = {};
+DATA.forEach(s=>s.items.forEach(i=>{ if(i.dprice) DPRICE[i.id]=i.dprice; }));
 
 const LOCAL_KEY = "elf_tienda_cache";
 let state = {stock:{}, prices:{}};
@@ -218,7 +253,7 @@ let currentFilter = "all", searchTerm = "", editMode = false, session = null;
 function loadCache(){ try{ const s=JSON.parse(localStorage.getItem(LOCAL_KEY)); if(s) return {stock:s.stock||{},prices:s.prices||{}}; }catch(e){} return {stock:{},prices:{}}; }
 function saveCache(){ localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); }
 function isInStock(id){ return state.stock[id] !== undefined ? state.stock[id] : true; }
-function getPrice(id){ return state.prices[id] || ""; }
+function getPrice(id){ return (state.prices[id] !== undefined && state.prices[id] !== "") ? state.prices[id] : (DPRICE[id] || ""); }
 function setSync(t,c){ const el=document.getElementById("syncBar"); el.textContent=t||""; el.className="sync "+(c||""); }
 
 async function remoteFetch(){
@@ -257,10 +292,16 @@ function render(){
           <span class="toggle-label">${inStock?'En inventario':'Sin inventario'}</span>
           <label class="switch"><input type="checkbox" ${inStock?"checked":""} data-id="${item.id}"><span class="slider"></span></label>
         </div>` : "";
+      const media = item.img
+        ? `<img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">`
+        : item.swatch
+          ? `<div class="swatch" style="background:${item.swatch}"></div>`
+          : `<div class="ph">${item.icon||'🛍️'}</div>`;
+      const imgClass = item.img ? "" : (item.swatch ? " swatchbg" : " phbg");
       card.innerHTML=`
-        <div class="imgwrap">
+        <div class="imgwrap${imgClass}">
           <div class="badge ${inStock?'ok':'out'}">${inStock?'Disponible':'Agotado'}</div>
-          <img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">
+          ${media}
         </div>
         <div class="name">${item.name}</div>
         <div class="desc">${item.desc}</div>
@@ -294,7 +335,7 @@ function updateAuthUI(){
   if(!logged && editMode){ editMode=false; render(); }
   eb.classList.toggle("on", editMode);
   eb.textContent = editMode ? "✓ Editando" : (logged ? "✏️ Editar" : "🔒 Editar");
-  document.getElementById("heroSub").textContent = editMode ? "Modo edición · marca disponibilidad y precios" : "Catálogo de productos";
+  document.getElementById("heroSub").textContent = editMode ? "Modo edición · marca disponibilidad y precios" : "Makeup Store · maquillaje, perfumes y más";
 }
 function openAuth(){ document.getElementById("authErr").textContent=""; document.getElementById("authModal").classList.add("show"); document.getElementById("authEmail").focus(); }
 function closeAuth(){ document.getElementById("authModal").classList.remove("show"); }
@@ -355,7 +396,7 @@ document.querySelectorAll(".filters button").forEach(btn=>{
 
 /* ---------- arranque ---------- */
 async function init(){
-  document.getElementById("footerNote").innerHTML='Inventario compartido y protegido · Solo el administrador puede editar (login) · Imágenes y nombres © e.l.f. Cosmetics — catálogo de referencia.';
+  document.getElementById("footerNote").innerHTML='LIV Beauty Makeup Store · Inventario compartido y protegido · Solo el administrador puede editar (login).<br>Fotos de e.l.f. y Rare Beauty son de sus marcas, uso de referencia.';
   state=loadCache(); render();
 
   const {data:{session:s}} = await db.auth.getSession();

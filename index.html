@@ -430,16 +430,12 @@ function render(){
           <label class="switch"><input type="checkbox" ${inStock?"checked":""} data-id="${item.id}"><span class="slider"></span></label>
         </div>` : "";
       const hasColorVariants = item.variants && item.variants.length && !item.noColorSwatch;
-      const initialColor = hasColorVariants ? guessSwatchColor(item.variants[0]) : null;
-      const shadeLabelHTML = hasColorVariants ? `<div class="shade-label">${item.variants[0]}</div>` : "";
-      const media = hasColorVariants
-        ? `<div class="swatch" style="background:${initialColor}"></div>${shadeLabelHTML}`
-        : item.img
-          ? `<img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">`
-          : item.swatch
-            ? `<div class="swatch" style="background:${item.swatch}"></div>`
-            : `<div class="ph">${item.icon||'🛍️'}</div>`;
-      const imgClass = hasColorVariants ? " swatchbg" : (item.img ? "" : (item.swatch ? " swatchbg" : " phbg"));
+      const media = item.img
+        ? `<img loading="lazy" src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentNode.style.background='#f5f5f7';">`
+        : item.swatch
+          ? `<div class="swatch" style="background:${item.swatch}"></div>`
+          : `<div class="ph">${item.icon||'🛍️'}</div>`;
+      const imgClass = item.img ? "" : (item.swatch ? " swatchbg" : " phbg");
       const variantHTML = (item.variants && item.variants.length) ? (
         hasColorVariants
           ? `<div class="variant-row" data-selected-variant="${item.variants[0]}" data-selected-for="${item.id}">
@@ -507,13 +503,6 @@ function render(){
         row.dataset.selectedVariant = value;
         row.querySelector('[data-selected-label]').textContent = value;
         row.querySelectorAll('.swatch-chip, .size-chip').forEach(c=>c.classList.toggle('selected', c.dataset.chipValue===value));
-
-        const wrap = document.getElementById(`imgwrap-${id}`);
-        if(wrap && wrap.querySelector('.swatch')){
-          wrap.querySelector('.swatch').style.background = guessSwatchColor(value);
-          const lbl = wrap.querySelector('.shade-label');
-          if(lbl) lbl.textContent = value;
-        }
       });
     });
   }

@@ -6,43 +6,46 @@
 <title>LIV Beauty Makeup Store</title>
 <style>
   :root{
-    --text:#1d1d1f; --text-light:#f5f5f7; --gray:#86868b; --accent:#0071e3;
-    --ok:#1db954; --out:#ff3b30; --card:#ffffff; --border:#e5e5ea;
+    --text:#3d3626; --text-light:#fbf9f3; --gray:#8c8570; --accent:#7c8354;
+    --cream:#f7f4ec; --cream-deep:#efe9da; --olive:#7c8354; --olive-dark:#5c6140;
+    --pink:#f0b9b0; --pink-deep:#e2948c; --pink-pale:#faeae7;
+    --ok:#6f8f52; --out:#c96a5f; --card:#ffffff; --border:#e7e1d1;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
-    background:var(--text-light);color:var(--text);-webkit-font-smoothing:antialiased;}
+    background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased;}
 
-  nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.8);
+  nav{position:sticky;top:0;z-index:100;background:rgba(247,244,236,0.88);
     backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
-    color:var(--text-light);padding:0 18px;height:48px;display:flex;align-items:center;
-    justify-content:space-between;font-size:14px;gap:10px;}
-  nav .logo{font-weight:700;font-size:19px;letter-spacing:-0.5px;white-space:nowrap;}
+    color:var(--olive-dark);padding:0 18px;height:56px;display:flex;align-items:center;
+    justify-content:space-between;font-size:14px;gap:10px;border-bottom:1px solid var(--border);}
+  nav .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:17px;letter-spacing:-0.3px;white-space:nowrap;color:var(--olive-dark);}
+  nav .logo img{height:34px;width:34px;object-fit:contain;border-radius:8px;}
   nav .right{display:flex;align-items:center;gap:12px;}
-  nav .stats{color:#a1a1a6;font-size:12px;white-space:nowrap;}
-  nav .sync{font-size:11px;color:#6e6e73;white-space:nowrap;}
-  nav .sync.saving{color:#f5c518;} nav .sync.error{color:#ff6b60;} nav .sync.ok{color:#5ad07a;}
-  .edit-btn{padding:6px 13px;border-radius:980px;border:1px solid #48484a;background:transparent;
-    color:#f5f5f7;font-size:12.5px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-  .edit-btn:hover{background:#f5f5f7;color:#000;}
+  nav .stats{color:var(--gray);font-size:12px;white-space:nowrap;}
+  nav .sync{font-size:11px;color:var(--gray);white-space:nowrap;}
+  nav .sync.saving{color:#c9a227;} nav .sync.error{color:var(--out);} nav .sync.ok{color:var(--ok);}
+  .edit-btn{padding:6px 13px;border-radius:980px;border:1px solid var(--olive);background:transparent;
+    color:var(--olive-dark);font-size:12.5px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .edit-btn:hover{background:var(--olive);color:#fff;}
   .edit-btn.on{background:var(--ok);border-color:var(--ok);color:#fff;}
-  .logout-btn{padding:6px 11px;border-radius:980px;border:1px solid #48484a;background:transparent;
-    color:#a1a1a6;font-size:12px;cursor:pointer;white-space:nowrap;display:none;}
-  .logout-btn:hover{color:#fff;border-color:#fff;}
+  .logout-btn{padding:6px 11px;border-radius:980px;border:1px solid var(--border);background:transparent;
+    color:var(--gray);font-size:12px;cursor:pointer;white-space:nowrap;display:none;}
+  .logout-btn:hover{color:var(--olive-dark);border-color:var(--olive);}
 
-  .hero{background:#000;color:var(--text-light);text-align:center;padding:64px 20px 50px;}
-  .hero h1{font-size:52px;font-weight:600;letter-spacing:-0.02em;
-    background:linear-gradient(90deg,#fff,#a1a1a6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-  .hero p{margin-top:10px;font-size:19px;color:#a1a1a6;}
-  .hero .search-wrap{margin-top:28px;display:flex;justify-content:center;}
+  .hero{background:linear-gradient(160deg,var(--cream) 0%,var(--pink-pale) 55%,var(--cream) 100%);color:var(--text);text-align:center;padding:56px 20px 50px;}
+  .hero .hero-logo{height:96px;width:96px;object-fit:contain;margin:0 auto 14px;display:block;filter:drop-shadow(0 8px 18px rgba(124,131,84,0.18));}
+  .hero h1{font-size:50px;font-weight:600;letter-spacing:-0.02em;color:var(--olive-dark);font-family:Georgia,'Times New Roman',serif;}
+  .hero p{margin-top:8px;font-size:18px;color:var(--gray);}
+  .hero .search-wrap{margin-top:26px;display:flex;justify-content:center;}
   .hero input[type="text"]{width:320px;max-width:82vw;padding:12px 20px;border-radius:980px;
-    border:1px solid #424245;background:#1d1d1f;color:#fff;font-size:15px;outline:none;}
-  .hero input[type="text"]::placeholder{color:#6e6e73;}
+    border:1px solid var(--border);background:#fff;color:var(--text);font-size:15px;outline:none;}
+  .hero input[type="text"]::placeholder{color:var(--gray);}
   .filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
-  .filters button{padding:8px 16px;border-radius:980px;border:1px solid #424245;background:transparent;
-    color:#f5f5f7;font-size:13px;cursor:pointer;transition:all .2s;}
-  .filters button.active, .filters button:hover{background:#f5f5f7;color:#000;}
+  .filters button{padding:8px 16px;border-radius:980px;border:1px solid var(--olive);background:transparent;
+    color:var(--olive-dark);font-size:13px;cursor:pointer;transition:all .2s;}
+  .filters button.active, .filters button:hover{background:var(--olive);color:#fff;border-color:var(--olive);}
 
   .category{padding:46px 5% 6px;max-width:1240px;margin:0 auto;}
   .category h2{font-size:29px;font-weight:600;letter-spacing:-0.02em;margin-bottom:2px;}
@@ -54,11 +57,11 @@
   .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,0.09);}
   .card.out .imgwrap img{filter:grayscale(0.9) opacity(0.55);}
   .card.out .name{color:var(--gray);}
-  .imgwrap{background:#f5f5f7;border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;
+  .imgwrap{background:var(--cream-deep);border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;
     justify-content:center;overflow:hidden;position:relative;margin-bottom:12px;}
   .imgwrap img{width:100%;height:100%;object-fit:contain;padding:6px;transition:filter .25s ease;}
-  .imgwrap.phbg{background:linear-gradient(135deg,#fdeef2,#eef1fb);}
-  .imgwrap.swatchbg{background:#faf7f8;}
+  .imgwrap.phbg{background:linear-gradient(135deg,var(--pink-pale),var(--cream-deep));}
+  .imgwrap.swatchbg{background:var(--cream);}
   .swatch{width:58%;aspect-ratio:1;border-radius:50%;box-shadow:inset 0 -8px 16px rgba(0,0,0,.18), 0 6px 16px rgba(0,0,0,.14);transition:filter .25s ease;}
   .ph{font-size:70px;line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12));transition:filter .25s ease;}
   .card.out .swatch, .card.out .ph{filter:grayscale(0.85) opacity(0.55);}
@@ -71,22 +74,22 @@
   }
   .badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:600;padding:4px 10px;
     border-radius:980px;letter-spacing:.02em;backdrop-filter:blur(8px);}
-  .badge.ok{background:rgba(29,185,84,0.14);color:#0f8a3c;}
-  .badge.out{background:rgba(255,59,48,0.14);color:#c9271d;}
+  .badge.ok{background:rgba(111,143,82,0.16);color:var(--olive-dark);}
+  .badge.out{background:rgba(201,106,95,0.16);color:#a4453a;}
   .name{font-size:16px;font-weight:600;letter-spacing:-0.01em;line-height:1.25;}
   .desc{font-size:12.5px;color:var(--gray);line-height:1.4;margin-top:4px;min-height:34px;}
-  .price{margin-top:8px;font-size:16px;font-weight:600;color:var(--text);outline:none;
+  .price{margin-top:8px;font-size:16px;font-weight:600;color:var(--olive-dark);outline:none;
     display:inline-block;min-width:36px;border-radius:6px;padding:1px 4px;transition:background .15s;}
-  .price.editable{cursor:text;} .price.editable:hover{background:#f0f0f2;}
-  .price.editable:focus{background:#eef4ff;box-shadow:0 0 0 2px rgba(0,113,227,0.35);}
-  .price.editable:empty:before{content:"Poner precio";color:#c7c7cc;font-weight:400;}
+  .price.editable{cursor:text;} .price.editable:hover{background:var(--cream-deep);}
+  .price.editable:focus{background:var(--pink-pale);box-shadow:0 0 0 2px rgba(124,131,84,0.35);}
+  .price.editable:empty:before{content:"Poner precio";color:#c2baa4;font-weight:400;}
   .price.readonly:empty{display:none;}
-  .toggle-row{margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f2;display:flex;
+  .toggle-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;
     align-items:center;justify-content:space-between;gap:10px;}
   .toggle-label{font-size:12.5px;color:var(--gray);font-weight:500;}
   .switch{position:relative;width:46px;height:26px;flex-shrink:0;}
   .switch input{opacity:0;width:0;height:0;}
-  .slider{position:absolute;cursor:pointer;inset:0;background:#e9e9eb;border-radius:34px;transition:.3s;}
+  .slider{position:absolute;cursor:pointer;inset:0;background:var(--cream-deep);border-radius:34px;transition:.3s;}
   .slider:before{content:"";position:absolute;height:20px;width:20px;left:3px;top:3px;background:white;
     border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,0.3);}
   .switch input:checked + .slider{background:var(--ok);}
@@ -98,9 +101,9 @@
   .variant-row{margin-top:10px;}
   .variant-row select{
     width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:10px;
-    font-size:12.5px;background:#fafafa;color:var(--text);outline:none;
+    font-size:12.5px;background:var(--cream);color:var(--text);outline:none;
   }
-  .variant-row select:focus{border-color:var(--accent);}
+  .variant-row select:focus{border-color:var(--olive);}
   .variant-label{font-size:11.5px;color:var(--gray);font-weight:600;margin-bottom:6px;}
   .swatch-row{display:flex;flex-wrap:wrap;gap:7px;}
   .swatch-chip{
@@ -109,16 +112,16 @@
     transition:transform .15s ease, box-shadow .15s ease;
   }
   .swatch-chip:hover{transform:scale(1.1);}
-  .swatch-chip.selected{border-color:var(--text);box-shadow:0 0 0 1px #fff inset, 0 0 0 2px var(--text);}
+  .swatch-chip.selected{border-color:var(--olive-dark);box-shadow:0 0 0 1px #fff inset, 0 0 0 2px var(--olive-dark);}
   .size-chip{
     padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:#fff;
     font-size:12px;font-weight:600;cursor:pointer;transition:all .15s ease;
   }
-  .size-chip:hover{border-color:var(--text);}
-  .size-chip.selected{background:#000;color:#fff;border-color:#000;}
+  .size-chip:hover{border-color:var(--olive);}
+  .size-chip.selected{background:var(--olive-dark);color:#fff;border-color:var(--olive-dark);}
   .add-row{margin-top:10px;display:flex;gap:8px;}
   .add-btn{
-    flex:1;padding:9px 10px;border:none;border-radius:10px;background:#000;color:#fff;
+    flex:1;padding:9px 10px;border:none;border-radius:10px;background:var(--olive-dark);color:#fff;
     font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;
   }
   .add-btn:hover{opacity:0.85;}
@@ -127,13 +130,13 @@
 
   /* CART FAB + BADGE */
   .cart-btn{
-    position:relative;padding:6px 13px;border-radius:980px;border:1px solid #48484a;
-    background:transparent;color:#f5f5f7;font-size:13px;cursor:pointer;white-space:nowrap;
+    position:relative;padding:6px 13px;border-radius:980px;border:1px solid var(--olive);
+    background:transparent;color:var(--olive-dark);font-size:13px;cursor:pointer;white-space:nowrap;
     display:flex;align-items:center;gap:6px;
   }
-  .cart-btn:hover{background:#f5f5f7;color:#000;}
+  .cart-btn:hover{background:var(--olive);color:#fff;}
   .cart-badge{
-    background:var(--out);color:#fff;font-size:10px;font-weight:700;border-radius:980px;
+    background:var(--pink-deep);color:#fff;font-size:10px;font-weight:700;border-radius:980px;
     min-width:17px;height:17px;display:none;align-items:center;justify-content:center;padding:0 4px;
   }
   .cart-badge.show{display:inline-flex;}
@@ -206,7 +209,7 @@
   .modal label{display:block;font-size:12px;color:var(--gray);margin:12px 0 5px;font-weight:600;}
   .modal input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;
     font-size:15px;outline:none;transition:box-shadow .15s;}
-  .modal input:focus{box-shadow:0 0 0 3px rgba(0,113,227,0.3);border-color:var(--accent);}
+  .modal input:focus{box-shadow:0 0 0 3px rgba(124,131,84,0.3);border-color:var(--accent);}
   .modal .primary{width:100%;margin-top:20px;padding:12px;border:none;border-radius:12px;
     background:var(--accent);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;}
   .modal .primary:hover{opacity:0.9;}
@@ -225,7 +228,7 @@
 <body>
 
 <nav>
-  <div class="logo">LIV Beauty</div>
+  <div class="logo"><img src="logo.jpg" alt="LIV Beauty"></div>
   <div class="right">
     <span class="stats" id="statsBar">—</span>
     <span class="sync" id="syncBar"></span>
@@ -236,6 +239,7 @@
 </nav>
 
 <div class="hero">
+  <img class="hero-logo" src="logo.jpg" alt="LIV Beauty">
   <h1>LIV Beauty</h1>
   <p id="heroSub">Makeup Store · maquillaje, perfumes y más</p>
   <div class="search-wrap"><input type="text" id="searchInput" placeholder="Buscar producto..."></div>

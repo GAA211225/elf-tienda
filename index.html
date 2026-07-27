@@ -223,9 +223,19 @@
     .hero h1{font-size:37px;} .hero p{font-size:16px;} nav .stats{display:none;}
     .category{padding:36px 5% 6px;} .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
   }
+
+  .promo-banner{
+    background:linear-gradient(90deg,var(--olive-dark),var(--olive) 50%,var(--pink-deep));
+    color:#fff;text-align:center;font-size:13.5px;font-weight:600;letter-spacing:.01em;
+    padding:9px 16px;
+  }
+  .promo-banner strong{font-weight:800;}
+  @media (max-width:600px){ .promo-banner{font-size:12px;padding:8px 10px;} }
 </style>
 </head>
 <body>
+
+<div class="promo-banner">✨ <strong>10% de descuento</strong> en tu primera compra · pregúntanos por WhatsApp ✨</div>
 
 <nav>
   <div class="logo"><img src="logo.jpg" alt="LIV Beauty"></div>

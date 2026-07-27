@@ -235,6 +235,33 @@
   }
   .promo-banner strong{font-weight:800;}
   @media (max-width:600px){ .promo-banner{font-size:12px;padding:8px 10px;} }
+
+  /* LIVE ACTIVITY PANEL (solo admin) */
+  .live-fab{
+    position:fixed;left:20px;bottom:20px;z-index:199;display:none;
+    background:var(--olive-dark);color:#fff;border-radius:980px;padding:10px 16px;
+    font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,0.22);
+    align-items:center;gap:7px;border:none;
+  }
+  .live-fab.show{display:flex;}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:#7de08a;box-shadow:0 0 0 0 rgba(125,224,138,0.6);
+    animation:live-pulse 1.8s infinite;}
+  @keyframes live-pulse{0%{box-shadow:0 0 0 0 rgba(125,224,138,0.55);}70%{box-shadow:0 0 0 8px rgba(125,224,138,0);}100%{box-shadow:0 0 0 0 rgba(125,224,138,0);}}
+  .live-panel{
+    position:fixed;left:20px;bottom:76px;z-index:199;width:290px;max-width:85vw;
+    background:#fff;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.22);
+    display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border);
+  }
+  .live-panel.show{display:flex;}
+  .live-head{padding:14px 16px;background:var(--cream-deep);display:flex;align-items:center;justify-content:space-between;}
+  .live-head b{font-size:13.5px;color:var(--olive-dark);}
+  .live-head .close{cursor:pointer;color:var(--gray);font-size:18px;line-height:1;}
+  .live-feed{max-height:280px;overflow-y:auto;padding:6px 0;}
+  .live-empty{padding:22px 16px;text-align:center;color:var(--gray);font-size:12.5px;}
+  .live-item{padding:9px 16px;border-bottom:1px solid var(--cream-deep);font-size:12px;color:var(--text);}
+  .live-item b{color:var(--olive-dark);}
+  .live-item .lt{color:var(--gray);font-size:10.5px;margin-top:1px;}
+  @media (max-width:600px){ .live-fab{left:16px;bottom:16px;} .live-panel{left:16px;bottom:70px;} }
 </style>
 </head>
 <body>
@@ -274,6 +301,13 @@
   <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.23-8.26 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.79.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43a1.6 1.6 0 0 0 .25-.41.46.46 0 0 0-.02-.44c-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
 </a>
 <span class="wa-tooltip">¿Dudas o existencias? Escríbenos</span>
+
+<!-- LIVE ACTIVITY (solo admin con sesión) -->
+<button class="live-fab" id="liveFab"><span class="live-dot"></span> <span id="liveCountLabel">0 en la tienda</span></button>
+<div class="live-panel" id="livePanel">
+  <div class="live-head"><b id="livePanelTitle">👀 0 personas en la tienda</b><span class="close" id="liveClose">&times;</span></div>
+  <div class="live-feed" id="liveFeed"><div class="live-empty">Sin actividad reciente todavía.</div></div>
+</div>
 
 <!-- CART DRAWER -->
 <div class="cart-bg" id="cartBg">
@@ -580,6 +614,7 @@ function addToCart(id, variant){
   const existing = cart.find(c=>c.id===id && c.variant===variant);
   if(existing){ existing.qty++; } else { cart.push({id, variant, qty:1}); }
   saveCart(); renderCartBadge();
+  broadcastCartAdd(id, variant);
 }
 function removeFromCart(idx){ cart.splice(idx,1); saveCart(); renderCartBadge(); renderCartItems(); }
 function changeQty(idx, delta){
@@ -649,6 +684,62 @@ document.getElementById("cartSendBtn").addEventListener("click",()=>{
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 });
 
+/* ---------- ACTIVIDAD EN VIVO (presencia + eventos de carrito, sin guardar datos) ---------- */
+const liveChannel = db.channel("liv-live-activity", { config: { presence: { key: crypto.randomUUID() } } });
+let liveFeedItems = [];
+let liveOnlineCount = 0;
+
+function timeAgo(ts){
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s<10) return "ahora";
+  if(s<60) return s+"s";
+  const m = Math.floor(s/60);
+  if(m<60) return m+"min";
+  return Math.floor(m/60)+"h";
+}
+function renderLivePanel(){
+  document.getElementById("liveCountLabel").textContent = `${liveOnlineCount} en la tienda`;
+  document.getElementById("livePanelTitle").textContent = `👀 ${liveOnlineCount} persona${liveOnlineCount===1?"":"s"} en la tienda`;
+  const feedEl = document.getElementById("liveFeed");
+  if(liveFeedItems.length===0){ feedEl.innerHTML = `<div class="live-empty">Sin actividad reciente todavía.</div>`; return; }
+  feedEl.innerHTML = liveFeedItems.slice(0,15).map(ev=>`
+    <div class="live-item">🛍️ Agregó <b>${ev.name}</b>${ev.variant?` (${ev.variant})`:""}
+      <div class="lt">hace ${timeAgo(ev.t)}</div>
+    </div>`).join("");
+}
+function broadcastCartAdd(id, variant){
+  const item = findItemById(id);
+  if(!item) return;
+  try{
+    liveChannel.send({ type:"broadcast", event:"cart_add", payload:{ name:item.name, variant:variant||"", t:Date.now() } });
+  }catch(e){}
+}
+liveChannel.on("presence", { event:"sync" }, ()=>{
+  liveOnlineCount = Object.keys(liveChannel.presenceState()).length;
+  renderLivePanel();
+});
+liveChannel.on("broadcast", { event:"cart_add" }, ({payload})=>{
+  liveFeedItems.unshift(payload);
+  liveFeedItems = liveFeedItems.slice(0,20);
+  renderLivePanel();
+});
+liveChannel.subscribe(async (status)=>{
+  if(status === "SUBSCRIBED"){ await liveChannel.track({ online_at: Date.now() }); }
+});
+setInterval(renderLivePanel, 30000); // refresca los "hace Xmin" aunque no llegue evento nuevo
+
+function updateLiveVisibility(){
+  const show = !!session;
+  document.getElementById("liveFab").classList.toggle("show", show);
+  if(!show) document.getElementById("livePanel").classList.remove("show");
+}
+document.getElementById("liveFab").addEventListener("click",()=>{
+  document.getElementById("livePanel").classList.toggle("show");
+});
+document.getElementById("liveClose").addEventListener("click",()=>{
+  document.getElementById("livePanel").classList.remove("show");
+});
+
 /* ---------- AUTH ---------- */
 function updateAuthUI(){
   const logged = !!session;
@@ -659,6 +750,7 @@ function updateAuthUI(){
   eb.classList.toggle("on", editMode);
   eb.textContent = editMode ? "✓ Editando" : (logged ? "✏️ Editar" : "🔒 Editar");
   document.getElementById("heroSub").textContent = editMode ? "Modo edición · marca disponibilidad y precios" : "Makeup Store · maquillaje, perfumes y más";
+  updateLiveVisibility();
 }
 function openAuth(){ document.getElementById("authErr").textContent=""; document.getElementById("authModal").classList.add("show"); document.getElementById("authEmail").focus(); }
 function closeAuth(){ document.getElementById("authModal").classList.remove("show"); }

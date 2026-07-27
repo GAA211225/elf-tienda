@@ -340,8 +340,8 @@
     <input type="password" id="authPass" autocomplete="current-password" placeholder="Tu contraseña">
     <button class="primary" id="authSubmit">Entrar</button>
     <div class="err" id="authErr"></div>
-    <div class="switch-mode" id="authSwitch">
-      <span id="authSwitchText">¿Primera vez?</span> <a id="authToggle">Crear mi cuenta de administrador</a>
+    <div class="switch-mode">
+      <a id="authForgot">¿Olvidaste tu contraseña?</a>
     </div>
   </div>
 </div>
@@ -754,18 +754,6 @@ function updateAuthUI(){
 }
 function openAuth(){ document.getElementById("authErr").textContent=""; document.getElementById("authModal").classList.add("show"); document.getElementById("authEmail").focus(); }
 function closeAuth(){ document.getElementById("authModal").classList.remove("show"); }
-let authMode="login";
-function toggleAuthMode(){
-  authMode = authMode==="login" ? "signup" : "login";
-  const login = authMode==="login";
-  document.getElementById("authTitle").textContent = login?"Acceso de administrador":"Crear cuenta de administrador";
-  document.getElementById("authSub").textContent = login?"Inicia sesión para editar el inventario.":"Crea tu cuenta con un correo y una contraseña que solo tú sepas.";
-  document.getElementById("authSubmit").textContent = login?"Entrar":"Crear cuenta";
-  document.getElementById("authSwitchText").textContent = login?"¿Primera vez?":"¿Ya tienes cuenta?";
-  document.getElementById("authToggle").textContent = login?"Crear mi cuenta de administrador":"Iniciar sesión";
-  const err=document.getElementById("authErr"); err.textContent=""; err.style.color="#ff3b30";
-}
-document.getElementById("authToggle").addEventListener("click", toggleAuthMode);
 document.getElementById("authSubmit").addEventListener("click", async ()=>{
   const email=document.getElementById("authEmail").value.trim();
   const pass=document.getElementById("authPass").value;
@@ -773,16 +761,8 @@ document.getElementById("authSubmit").addEventListener("click", async ()=>{
   if(!email||!pass){ err.textContent="Escribe correo y contraseña."; return; }
   btn.disabled=true; err.textContent="";
   try{
-    if(authMode==="signup"){
-      const {error}=await db.auth.signUp({email,password:pass});
-      if(error) throw error;
-      err.style.color="#0f8a3c"; err.textContent="Cuenta creada. Iniciando sesión…";
-      const {error:e2}=await db.auth.signInWithPassword({email,password:pass});
-      if(e2) throw e2;
-    } else {
-      const {error}=await db.auth.signInWithPassword({email,password:pass});
-      if(error) throw error;
-    }
+    const {error}=await db.auth.signInWithPassword({email,password:pass});
+    if(error) throw error;
     closeAuth();
     editMode=true;
     document.getElementById("authPass").value="";
@@ -791,6 +771,16 @@ document.getElementById("authSubmit").addEventListener("click", async ()=>{
     err.style.color="#ff3b30";
     err.textContent = (ex.message||"Error").includes("Invalid login") ? "Correo o contraseña incorrectos." : (ex.message||"Error al entrar.");
   }finally{ btn.disabled=false; }
+});
+document.getElementById("authForgot").addEventListener("click", async ()=>{
+  const email=document.getElementById("authEmail").value.trim();
+  const err=document.getElementById("authErr");
+  if(!email){ err.style.color="#ff3b30"; err.textContent="Escribe tu correo arriba y vuelve a tocar aquí."; return; }
+  try{
+    const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.href});
+    if(error) throw error;
+    err.style.color="#0f8a3c"; err.textContent="Te enviamos un correo para restablecer tu contraseña.";
+  }catch(ex){ err.style.color="#ff3b30"; err.textContent=ex.message||"No se pudo enviar el correo."; }
 });
 document.getElementById("authClose").addEventListener("click", closeAuth);
 document.getElementById("authModal").addEventListener("click",e=>{ if(e.target.id==="authModal") closeAuth(); });
